@@ -1,3 +1,8 @@
 node_modules
 build
+<<<<<<< Updated upstream
 .env
+=======
+.env
+holder.js
+>>>>>>> Stashed changes

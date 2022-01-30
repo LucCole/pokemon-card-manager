@@ -4,7 +4,9 @@
   "description": "An app that will allow you to keep track of your Pokémon card collections",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server:dev": "nodemon index.js",
+    "db:build": "node ./db/seed.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

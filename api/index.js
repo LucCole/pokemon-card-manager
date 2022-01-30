@@ -42,6 +42,7 @@ apiRouter.get('/health', async (req, res, next) =>{
   }
 });
 
-// get router here
+const usersRouter = require('./users');
+apiRouter.use('/users', usersRouter);
 
 module.exports = apiRouter

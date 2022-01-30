@@ -1,5 +1,6 @@
-// const { 
-// } = require('./index');
+const { 
+  createUser
+} = require('./index');
 
 const { 
   client
@@ -12,9 +13,22 @@ try {
   // Client
   client.connect();
 
-  // drop tables
+  // Drop Tables
+  await client.query(`
+    DROP TABLE IF EXISTS users;
+  `);
 
-  // create tables
+  // Create Tables
+  await client.query(`
+  CREATE TABLE users(
+    id SERIAL PRIMARY KEY, 
+    username VARCHAR(255) NOT NULL, 
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    "isAdmin" BOOLEAN DEFAULT false,
+    UNIQUE (username, email)
+  );
+  `);
 
 } catch (error) {
   console.error("Error building tables!");
@@ -25,7 +39,19 @@ try {
 async function populateInitialData() {
   try {
  
-    // Initial data
+    // users
+    const usersToCreate = [
+      { username: 'albert', password: 'bertie99', email:'albert@gmail.com' },
+      { username: 'sandra', password: 'sandra123', email:'sandra@gmail.com' },
+      { username: 'glamgal', password: 'glamgal123', email:'glamgal@gmail.com' },
+      { username: 'pruplebarny', password: 'barney123', email:'barney@gmail.com' },
+      { username: 'luc', password: '12345678', email:'luc@gmail.com', isAdmin:true },
+    ];
+
+    const users = await Promise.all(usersToCreate.map(createUser));
+    console.log('Users created:');
+    console.log(users);
+    console.log('Finished creating users!');
 
   } catch (error) {
     console.error("Error building tables!", error)

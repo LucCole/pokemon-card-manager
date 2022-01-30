@@ -1,7 +1,7 @@
 const { Client } = require('pg');
 
 const client = new Client({
-  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/pokemon-card-manager',
+  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/pokemoncardmanager',
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
 });
 

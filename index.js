@@ -17,7 +17,7 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 server.use('/api', require('./api'));
 
-const {client} = require('.db');
+const {client} = require('./db');
 
 server.get('*', (req, res) => {
   res

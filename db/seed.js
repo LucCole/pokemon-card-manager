@@ -1,7 +1,8 @@
 const { 
   createUser,
   createSet,
-  createCard
+  createCard,
+  createCollectionTemplate
 } = require('./index');
 
 const { 
@@ -19,6 +20,7 @@ try {
 
   // Drop Tables
   await client.query(`
+    DROP TABLE IF EXISTS collectionTemplates;
     DROP TABLE IF EXISTS cards;
     DROP TABLE IF EXISTS sets;
     DROP TABLE IF EXISTS users;
@@ -55,9 +57,7 @@ try {
   `);
   console.log('Created users table');
 
-
-  // set should probably be an id pointing to the set table.
-  // should group also be a table?
+  // Cards
   await client.query(`
   CREATE TABLE cards(
     id SERIAL PRIMARY KEY, 
@@ -75,6 +75,21 @@ try {
   `);
   console.log('Created cards table');
 
+  // Collection Templates
+  await client.query(`
+  CREATE TABLE "collectionTemplates"(
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(100) NOT NULL, 
+    image VARCHAR(500),
+    "numberOfCards" INTEGER,
+    "normalCards" INTEGER,
+    "secretCards" INTEGER,
+    description VARCHAR(1000),
+    "creatorId" INTEGER REFERENCES users(id) NOT NULL
+  );
+  `);
+  console.log('Created collection templates table');
+
   console.log('Finished creating tables');
 
 } catch (error) {
@@ -88,7 +103,7 @@ async function populateInitialData() {
 
     console.log('Starting to seed database');
 
- 
+
     // Users
     console.log('Creating users');
     const usersToCreate = [
@@ -191,6 +206,34 @@ async function populateInitialData() {
     const cards = await Promise.all(cardsToCreate.map(createCard));
     console.log('Finished creating Cards!');
     console.log(cards);
+
+    // Collection Templates
+    console.log('Creating collection templates');
+    const collectionTemplatesToCreate = [
+      { 
+        name: 'Charmanders!', 
+        image: 'https://archives.bulbagarden.net/media/upload/7/73/004Charmander.png',
+        numberOfCards: 10,
+        normalCards: 8,
+        secretCards: 2,
+        description: 'A charmander collection!',
+        creatorId: 1
+      },
+      
+      { 
+        name: 'Gen 1 pokemon', 
+        image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',
+        numberOfCards: 150,
+        normalCards: 150,
+        secretCards: 0,
+        description: 'All Gen 1 pokemon, no hollos or secret rares',
+        creatorId: 2
+      },
+    ];
+
+    const collectionTemplates = await Promise.all(collectionTemplatesToCreate.map(createCollectionTemplate));
+    console.log('Finished creating collection templates!');
+    console.log(collectionTemplates);
 
     console.log('Finished to seeding database');
 

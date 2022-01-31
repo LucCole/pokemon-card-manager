@@ -1,6 +1,7 @@
 const { 
   createUser,
-  createSet
+  createSet,
+  createCard
 } = require('./index');
 
 const { 
@@ -12,14 +13,13 @@ async function buildTables() {
 try {
 
   // Client
-  console.log('Connecting to client');
   client.connect();
   console.log('Connected to client');
 
 
   // Drop Tables
-  console.log('Dropping tables');
   await client.query(`
+    DROP TABLE IF EXISTS cards;
     DROP TABLE IF EXISTS sets;
     DROP TABLE IF EXISTS users;
   `);
@@ -27,10 +27,8 @@ try {
 
 
   // Create Tables
-  console.log('Creating tables');
 
   // Users
-  console.log('Creating users table');
   await client.query(`
   CREATE TABLE users(
     id SERIAL PRIMARY KEY, 
@@ -44,7 +42,6 @@ try {
   console.log('Created users table');
 
   // Sets
-  console.log('Creating sets table');
   await client.query(`
   CREATE TABLE sets(
     id SERIAL PRIMARY KEY, 
@@ -57,6 +54,26 @@ try {
   );
   `);
   console.log('Created users table');
+
+
+  // set should probably be an id pointing to the set table.
+  // should group also be a table?
+  await client.query(`
+  CREATE TABLE cards(
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(100) NOT NULL,
+    image VARCHAR(500),
+    set INTEGER REFERENCES sets(id),
+    "numberInSet" INTEGER,
+    rarity VARCHAR(100),
+    version VARCHAR(100),
+    "cardType" VARCHAR(100),
+    type VARCHAR(100),
+    "hitPoints" INTEGER,
+    artist VARCHAR(100)
+  );
+  `);
+  console.log('Created cards table');
 
   console.log('Finished creating tables');
 
@@ -119,6 +136,61 @@ async function populateInitialData() {
     console.log('Finished creating sets!');
     console.log(sets);
 
+    // Cards
+    const cardsToCreate = [
+      { 
+        name: 'Drizzile',
+        image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645076.jpg',
+        set: 1,
+        setNum: 56,
+        rarity: 'Uncommon',
+        version: 'Normal',
+        cardType: 'Pokémon - Stage 1',
+        type: 'Water',
+        hitPoints: 90,
+        artist: 'Naoki Saito'
+      },
+      { 
+        name: 'Arceus & Dialga & Palkia GX',
+        image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1605919.jpg',
+        set: 2,
+        setNum: 156,
+        rarity: 'Rare Holo GX',
+        version: 'Hollo',
+        cardType: 'Pokémon - TAG TEAM',
+        type: 'Dragon',
+        hitPoints: 90,
+        artist: 'Mitsuhiro Arita'
+      },
+      { 
+        name: 'Ordinary Rod',
+        image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645191.jpg',
+        set: 2,
+        setNum: 171,
+        rarity: 'Uncommon',
+        version: 'Normal',
+        cardType: 'Trainer - Item',
+        type: null,
+        hitPoints: null,
+        artist: '5ban Graphics',
+      },
+      { 
+        name: 'Ditto',
+        image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/302988.jpg',
+        set: 3,
+        setNum: 17,
+        rarity: 'Rare',
+        version: 'Normal',
+        cardType: 'Pokémon',
+        type: 'Normal',
+        hitPoints: 40,
+        artist: null,
+      }
+    ];
+
+    const cards = await Promise.all(cardsToCreate.map(createCard));
+    console.log('Finished creating Cards!');
+    console.log(cards);
 
     console.log('Finished to seeding database');
 

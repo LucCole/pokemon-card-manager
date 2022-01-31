@@ -55,11 +55,13 @@ apiRouter.use('/cards', cardsRouter);
 const collectionTemplatesRouter = require('./collectionTemplates');
 apiRouter.use('/collectiontemplates', collectionTemplatesRouter);
 
-// why light blue?
 const collectionTemplatesCardsRouter = require('./collectionTemplatesCards');
 apiRouter.use('/collection-templates-cards', collectionTemplatesCardsRouter);
 
 const collectionsRouter = require('./collections');
 apiRouter.use('/collections', collectionsRouter);
+
+const collectionsCardsRouter = require('./collectionsCards');
+apiRouter.use('/collections-cards', collectionsCardsRouter);
 
 module.exports = apiRouter

@@ -7,4 +7,5 @@ module.exports = {
   ...require('./collectionTemplates'),
   ...require('./collectionTemplatesCards'),
   ...require('./collections'),
+  ...require('./collectionsCards'),
 }

@@ -53,7 +53,6 @@ userRouter.post('/register', async (req, res, next) => {
   }
 });
 
-// This was a POST, but I realized I couldnt see why. So I'm trying it as a get.
 // GET /api/users/login
 userRouter.get('/login', async (req, res, next) => {
   const { username, password } = req.body;
@@ -81,16 +80,12 @@ userRouter.get('/login', async (req, res, next) => {
   }
 });
 
-// We need to make sure that only the user that can be changed is the one thats currently logged in
-
 // PATCH /api/users/me/:userId
 userRouter.patch('/me/:userId', requireUser, async (req, res, next) => {
   try {
     const { userId } = req.params;
     const user = await getUserById(userId);
 
-    // console.log('user.id: ', user.id);
-    // console.log('req.user.id: ', req.user.id);
     if(!user) {
       next({
         name: 'No User',

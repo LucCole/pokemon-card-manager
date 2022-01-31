@@ -51,9 +51,8 @@ apiRouter.use('/sets', setsRouter);
 const cardsRouter = require('./cards');
 apiRouter.use('/cards', cardsRouter);
 
-// doesnt this need to be the same case as the file name?
 const collectionTemplatesRouter = require('./collectionTemplates');
-apiRouter.use('/collectiontemplates', collectionTemplatesRouter);
+apiRouter.use('/collection-templates', collectionTemplatesRouter);
 
 const collectionTemplatesCardsRouter = require('./collectionTemplatesCards');
 apiRouter.use('/collection-templates-cards', collectionTemplatesCardsRouter);

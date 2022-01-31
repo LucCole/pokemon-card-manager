@@ -151,18 +151,15 @@ async function populateInitialData() {
     const collectionTemplatesCardsToCreate = [
       { 
         "collectionTemplateId": 1,
-        "cardId": 1,
-        "collected": false
+        "cardId": 1
       },
       { 
         "collectionTemplateId": 1,
-        "cardId": 2,
-        "collected": true
+        "cardId": 2
       },
       { 
         "collectionTemplateId": 2,
-        "cardId": 3,
-        "collected": false
+        "cardId": 3
       },
     ];
 

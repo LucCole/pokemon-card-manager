@@ -1,13 +1,6 @@
-// TODO 
-
-/* 
-
-- some of these need to require an admin user (post, delete, update)
-
-*/
 
 const express = require('express');
-const collectionTemplateCardsRouter = express.Router();
+const collectionTemplatesCardsRouter = express.Router();
 
 const { 
   createCollectionTemplateCard,
@@ -15,8 +8,8 @@ const {
   getCollectionTemplateCardById
 } = require('../db');
 
-// POST /api/collectiontemplates-cards
-collectionTemplateCardsRouter.post('/', async (req, res, next) => {
+// POST /api/collection-templates-cards
+collectionTemplatesCardsRouter.post('/', async (req, res, next) => {
   try {
     const collectionTemplateCard = await createCollectionTemplateCard(req.body);
     res.send(collectionTemplateCard);
@@ -25,8 +18,8 @@ collectionTemplateCardsRouter.post('/', async (req, res, next) => {
   }
 });
 
-// DELETE /api/collectiontemplates-cards/:id
-collectionTemplateCardsRouter.delete('/:id', async (req, res, next) => {
+// DELETE /api/collection-templates-cards/:id
+collectionTemplatesCardsRouter.delete('/:id', async (req, res, next) => {
   console.log(req.params.id);
   try {
     const collectionTemplateCard = await deleteCollectionTemplateCard(req.params.id);
@@ -36,8 +29,8 @@ collectionTemplateCardsRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
-// GET /api/collectiontemplates-cards/id/:id
-collectionTemplateCardsRouter.get('/id/:id', async (req, res, next) => {
+// GET /api/collection-templates-cards/id/:id
+collectionTemplatesCardsRouter.get('/id/:id', async (req, res, next) => {
   try {
     const collectionTemplateCard = await getCollectionTemplateCardById(req.params.id);
     if(typeof collectionTemplateCard === 'object'){
@@ -53,4 +46,4 @@ collectionTemplateCardsRouter.get('/id/:id', async (req, res, next) => {
   }
 });
 
-module.exports = collectionTemplateCardsRouter;
+module.exports = collectionTemplatesCardsRouter;

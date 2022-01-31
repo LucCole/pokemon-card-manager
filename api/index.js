@@ -54,4 +54,7 @@ apiRouter.use('/cards', cardsRouter);
 const collectionTemplatesRouter = require('./collectiontemplates');
 apiRouter.use('/collectiontemplates', collectionTemplatesRouter);
 
+const collectionsRouter = require('./collections');
+apiRouter.use('/collections', collectionsRouter);
+
 module.exports = apiRouter

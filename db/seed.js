@@ -2,7 +2,8 @@ const {
   createUser,
   createSet,
   createCard,
-  createCollectionTemplate
+  createCollectionTemplate,
+  createCollection
 } = require('./index');
 
 const { 
@@ -17,10 +18,10 @@ try {
   client.connect();
   console.log('Connected to client');
 
-
   // Drop Tables
   await client.query(`
-    DROP TABLE IF EXISTS collectionTemplates;
+    DROP TABLE IF EXISTS collections;
+    DROP TABLE IF EXISTS "collectionTemplates";
     DROP TABLE IF EXISTS cards;
     DROP TABLE IF EXISTS sets;
     DROP TABLE IF EXISTS users;
@@ -89,6 +90,21 @@ try {
   );
   `);
   console.log('Created collection templates table');
+
+  // Collections
+  await client.query(`
+  CREATE TABLE collections(
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(100) NOT NULL, 
+    image VARCHAR(500),
+    "numberOfCards" INTEGER,
+    "normalCards" INTEGER,
+    "secretCards" INTEGER,
+    description VARCHAR(1000),
+    "userId" INTEGER REFERENCES users(id) NOT NULL
+  );
+  `);
+  console.log('Created collections table');
 
   console.log('Finished creating tables');
 
@@ -234,6 +250,34 @@ async function populateInitialData() {
     const collectionTemplates = await Promise.all(collectionTemplatesToCreate.map(createCollectionTemplate));
     console.log('Finished creating collection templates!');
     console.log(collectionTemplates);
+
+    // Collections
+    console.log('Creating collections');
+    const collectionsToCreate = [
+      { 
+        name: 'User 1\s grass colection', 
+        image: 'https://archives.bulbagarden.net/media/upload/7/73/004Charmander.png',
+        numberOfCards: 10,
+        normalCards: 8,
+        secretCards: 2,
+        description: 'My own personal grass type collection',
+        userId: 1
+      },
+      
+      { 
+        name: 'Legendarys', 
+        image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',
+        numberOfCards: 150,
+        normalCards: 150,
+        secretCards: 0,
+        description: 'All legendarys',
+        userId: 2
+      },
+    ];
+
+    const collections = await Promise.all(collectionsToCreate.map(createCollection));
+    console.log('Finished creating collections!');
+    console.log(collections);
 
     console.log('Finished to seeding database');
 

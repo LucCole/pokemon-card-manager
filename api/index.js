@@ -51,8 +51,13 @@ apiRouter.use('/sets', setsRouter);
 const cardsRouter = require('./cards');
 apiRouter.use('/cards', cardsRouter);
 
-const collectionTemplatesRouter = require('./collectiontemplates');
+// doesnt this need to be the same case as the file name?
+const collectionTemplatesRouter = require('./collectionTemplates');
 apiRouter.use('/collectiontemplates', collectionTemplatesRouter);
+
+// why light blue?
+const collectionTemplatesCardsRouter = require('./collectionTemplatesCards');
+apiRouter.use('/collection-templates-cards', collectionTemplatesCardsRouter);
 
 const collectionsRouter = require('./collections');
 apiRouter.use('/collections', collectionsRouter);

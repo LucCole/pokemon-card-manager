@@ -3,7 +3,8 @@ const {
   createSet,
   createCard,
   createCollectionTemplate,
-  createCollection
+  createCollection,
+  createCollectionTemplateCard
 } = require('./index');
 
 const { 
@@ -21,6 +22,7 @@ try {
   // Drop Tables
   await client.query(`
     DROP TABLE IF EXISTS collections;
+    DROP TABLE IF EXISTS "collectionTemplates_cards";
     DROP TABLE IF EXISTS "collectionTemplates";
     DROP TABLE IF EXISTS cards;
     DROP TABLE IF EXISTS sets;
@@ -87,6 +89,17 @@ try {
     "secretCards" INTEGER,
     description VARCHAR(1000),
     "creatorId" INTEGER REFERENCES users(id) NOT NULL
+  );
+  `);
+  console.log('Created collection templates table');
+
+  // Collection Templates
+  await client.query(`
+  CREATE TABLE "collectionTemplates_cards"(
+    id SERIAL PRIMARY KEY, 
+    "collectionTemplateId" INTEGER REFERENCES "collectionTemplates"(id) NOT NULL, 
+    "cardId" INTEGER REFERENCES cards(id) NOT NULL, 
+    collected BOOLEAN
   );
   `);
   console.log('Created collection templates table');
@@ -251,7 +264,31 @@ async function populateInitialData() {
     console.log('Finished creating collection templates!');
     console.log(collectionTemplates);
 
-    // Collections
+    // Collection Templates Cards
+    console.log('Creating collection templates cards');
+    const collectionTemplatesCardsToCreate = [
+      { 
+        "collectionTemplateId": 1,
+        "cardId": 1,
+        "collected": false
+      },
+      { 
+        "collectionTemplateId": 1,
+        "cardId": 2,
+        "collected": true
+      },
+      { 
+        "collectionTemplateId": 2,
+        "cardId": 3,
+        "collected": false
+      },
+    ];
+
+    const collectionTemplatesCards = await Promise.all(collectionTemplatesCardsToCreate.map(createCollectionTemplateCard));
+    console.log('Finished creating collection templates Cards!');
+    console.log(collectionTemplatesCards);
+
+    // Collection Templates
     console.log('Creating collections');
     const collectionsToCreate = [
       { 
@@ -263,7 +300,6 @@ async function populateInitialData() {
         description: 'My own personal grass type collection',
         userId: 1
       },
-      
       { 
         name: 'Legendarys', 
         image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',

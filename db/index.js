@@ -5,5 +5,6 @@ module.exports = {
   ...require('./sets'),
   ...require('./cards'),
   ...require('./collectionTemplates'),
+  ...require('./collectionTemplatesCards'),
   ...require('./collections'),
 }

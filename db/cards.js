@@ -120,10 +120,6 @@ async function getAllCards() {
   }
 }
 
-// just put all of these in a search function?
-// get all cards for set
-// get all cards by artist
-
 module.exports = {
   createCard,
   deleteCard,

@@ -1,10 +1,3 @@
-// TODO 
-
-/* 
-
-- some of these need to require an admin user (post, delete, update)
-
-*/
 
 const express = require('express');
 const cardsRouter = express.Router();
@@ -18,6 +11,7 @@ const {
   getAllCards,
 } = require('../db');
 
+// POST /api/cards
 cardsRouter.post('/', async (req, res, next) => {
   try {
     const card = await createCard(req.body);
@@ -27,6 +21,7 @@ cardsRouter.post('/', async (req, res, next) => {
   }
 });
 
+// DELETE /api/cards/:id
 cardsRouter.delete('/:id', async (req, res, next) => {
   console.log(req.params.id);
   try {
@@ -37,6 +32,7 @@ cardsRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
+// PATCH /api/cards/:id
 cardsRouter.patch('/:id', async (req, res, next) => {
   try {
     const card = await updateCard({...req.body, id: req.params.id});
@@ -46,6 +42,7 @@ cardsRouter.patch('/:id', async (req, res, next) => {
   }
 });
 
+// GET /api/cards/id/:id
 cardsRouter.get('/id/:id', async (req, res, next) => {
   try {
     const card = await getCardById(req.params.id);
@@ -62,6 +59,7 @@ cardsRouter.get('/id/:id', async (req, res, next) => {
   }
 });
 
+// GET /api/cards/name/:name
 cardsRouter.get('/name/:name', async (req, res, next) => {
   try {
     const card = await getCardByName(req.params.name);
@@ -78,6 +76,7 @@ cardsRouter.get('/name/:name', async (req, res, next) => {
   }
 });
 
+// GET /api/cards
 cardsRouter.get('/', async (req, res, next) => {
   try {
     const cards = await getAllCards();

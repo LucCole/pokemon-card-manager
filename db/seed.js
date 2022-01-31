@@ -10,11 +10,14 @@ const {
 async function buildTables() {
 try {
 
-  // Client
+  // -- Connect To Client
+
   client.connect();
   console.log('Connected to client');
 
-  // Drop Tables
+
+  // -- Drop Tables
+  
   await client.query(`
     DROP TABLE IF EXISTS "collections_cards";
     DROP TABLE IF EXISTS collections;
@@ -27,7 +30,7 @@ try {
   console.log('Dropped tables');
 
 
-  // Create Tables
+  // -- Create Tables
 
   // Users
   await client.query(`
@@ -94,8 +97,7 @@ try {
   CREATE TABLE "collectionTemplates_cards"(
     id SERIAL PRIMARY KEY, 
     "collectionTemplateId" INTEGER REFERENCES "collectionTemplates"(id) NOT NULL, 
-    "cardId" INTEGER REFERENCES cards(id) NOT NULL, 
-    collected BOOLEAN
+    "cardId" INTEGER REFERENCES cards(id) NOT NULL
   );
   `);
   console.log('Created collection templates table');

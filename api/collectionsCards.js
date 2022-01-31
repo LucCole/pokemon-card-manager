@@ -1,10 +1,3 @@
-// TODO 
-
-/* 
-
-- some of these need to require an admin user (post, delete, update)
-
-*/
 
 const express = require('express');
 const collectionsCardsRouter = express.Router();

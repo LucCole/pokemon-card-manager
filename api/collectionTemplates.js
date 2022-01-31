@@ -1,10 +1,3 @@
-// TODO 
-
-/* 
-
-- some of these need to require an admin user (post, delete, update)
-
-*/
 
 const express = require('express');
 const collectionTemplatesRouter = express.Router();
@@ -18,7 +11,7 @@ const {
   getAllCollectionTemplates
 } = require('../db');
 
-// POST /api/collectiontemplates
+// POST /api/collection-templates
 collectionTemplatesRouter.post('/', async (req, res, next) => {
   try {
     const collectionTemplate = await createCollectionTemplate(req.body);
@@ -28,7 +21,7 @@ collectionTemplatesRouter.post('/', async (req, res, next) => {
   }
 });
 
-// DELETE /api/collectiontemplates/:id
+// DELETE /api/collection-templates/:id
 collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
   console.log(req.params.id);
   try {
@@ -39,7 +32,7 @@ collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
-// PATCH /api/collectiontemplates/:id
+// PATCH /api/collection-templates/:id
 collectionTemplatesRouter.patch('/:id', async (req, res, next) => {
   try {
     const collectionTemplate = await updateCollectionTemplate({...req.body, id: req.params.id});
@@ -49,7 +42,7 @@ collectionTemplatesRouter.patch('/:id', async (req, res, next) => {
   }
 });
 
-// GET /api/collectiontemplates/id/:id
+// GET /api/collection-templates/id/:id
 collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
   try {
     const collectionTemplate = await getCollectionTemplateById(req.params.id);
@@ -66,7 +59,7 @@ collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
   }
 });
 
-// GET /api/collectiontemplates/name/:name
+// GET /api/collection-templates/name/:name
 collectionTemplatesRouter.get('/name/:name', async (req, res, next) => {
   try {
     const collectionTemplate = await getCollectionTemplateByName(req.params.name);
@@ -83,7 +76,7 @@ collectionTemplatesRouter.get('/name/:name', async (req, res, next) => {
   }
 });
 
-// GET /api/collectiontemplates
+// GET /api/collection-templates
 collectionTemplatesRouter.get('/', async (req, res, next) => {
   try {
     const collectionTemplates = await getAllCollectionTemplates();

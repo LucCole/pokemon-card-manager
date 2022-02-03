@@ -24,6 +24,37 @@ collectionsRouter.post('/', async (req, res, next) => {
   }
 });
 
+// PATCH /api/collections/:id
+collectionsRouter.patch('/:id', async (req, res, next) => {
+  try {
+
+    const collectionId = req.params.id;
+    const doesCollectionExist = await getCollectionById(collectionId);
+
+    if(!doesCollectionExist){
+      next({
+        name: 'NotFound',
+        message: `No collection found by ID ${collectionId}`
+      })
+    }else{
+
+      const canAccess = await canAccessCollection(collectionId, req.user.id);
+
+      if(canAccess){
+        const collection = await updateCollection({...req.body, id: req.params.id});
+        res.send(collection);
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection`
+        })
+      }
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 // DELETE /api/collections/:id
 collectionsRouter.delete('/:id', async (req, res, next) => {
   try {
@@ -43,37 +74,6 @@ collectionsRouter.delete('/:id', async (req, res, next) => {
       if(canAccess){
         await deleteAllCollectionsCards(collectionId);
         const collection = await deleteCollection(collectionId);
-        res.send(collection);
-      }else{
-        next({
-          name: 'CantAccess',
-          message: `You do not have access this collection`
-        })
-      }
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-// PATCH /api/collections/:id
-collectionsRouter.patch('/:id', async (req, res, next) => {
-  try {
-
-    const collectionId = req.params.id;
-    const doesCollectionExist = await getCollectionById(collectionId);
-
-    if(!doesCollectionExist){
-      next({
-        name: 'NotFound',
-        message: `No collection found by ID ${collectionId}`
-      })
-    }else{
-
-      const canAccess = await canAccessCollection(collectionId, req.user.id);
-
-      if(canAccess){
-        const collection = await updateCollection({...req.body, id: req.params.id});
         res.send(collection);
       }else{
         next({
@@ -156,11 +156,6 @@ collectionsRouter.get('/user', async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
-
 
 // !! DEV !!
 // GET /api/collections

@@ -1,14 +1,14 @@
 
 const { client } = require('./client');
 
-async function createCollectionTemplateCard({ collectionTemplateId, cardId, collected }) {
+async function createCollectionTemplateCard({ collectionTemplateId, cardId }) {
   try {
 
     const {rows: [collectionTemplate]} = await client.query(`
-    INSERT INTO "collectionTemplates_cards"("collectionTemplateId", "cardId", collected) 
-    VALUES ($1, $2, $3)
+    INSERT INTO "collectionTemplates_cards"("collectionTemplateId", "cardId") 
+    VALUES ($1, $2)
     RETURNING *;
-    `, [ collectionTemplateId, cardId, collected ]);
+    `, [ collectionTemplateId, cardId ]);
 
     return collectionTemplate;
   } catch (error) {

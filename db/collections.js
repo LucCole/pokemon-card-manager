@@ -2,6 +2,7 @@
 const { client } = require('./client');
 
 async function createCollection({ name, image, numberOfCards, normalCards, secretCards, description, userId }) {
+  console.log('userId: ', userId);
   try {
 
     const {rows: [collection]} = await client.query(`
@@ -101,6 +102,35 @@ async function getCollectionByName(name) {
   }
 }
 
+async function getAllUserCollections(userId) {
+  try {
+
+    const {rows: collections} = await client.query(`
+    SELECT *
+    FROM collections
+    WHERE "userId" = $1;
+    `, [userId]);
+
+    return collections;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function getAllCollections() {
   try {
 
@@ -115,11 +145,34 @@ async function getAllCollections() {
   }
 }
 
+
+// Should we return and error here?
+async function canAccessCollection(collectionId, userId) {
+  try{
+
+    const {rows: [collection]} = await client.query(`
+    SELECT * FROM collections
+    WHERE id = $1
+    AND "userId" = $2;
+    `, [collectionId, userId]);
+
+    if(collection){
+      return true;
+    }
+
+    return false;
+  }catch(error){
+    throw error;
+  }
+}
+
 module.exports = {
   createCollection,
   deleteCollection,
   updateCollection,
   getCollectionById,
   getCollectionByName,
-  getAllCollections
+  getAllCollections,
+  canAccessCollection,
+  getAllUserCollections
 }

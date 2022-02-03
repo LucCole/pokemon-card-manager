@@ -31,21 +31,6 @@ async function deleteCollectionCard(id) {
   }
 }
 
-async function getCollectionCardById(id) {
-  try {
-
-    const {rows: [collectionCard]} = await client.query(`
-    SELECT *
-    FROM "collections_cards"
-    WHERE id=$1;
-    `, [id]);
-
-    return collectionCard;
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function deleteAllCollectionsCards(id) {
   try {
 
@@ -61,9 +46,58 @@ async function deleteAllCollectionsCards(id) {
   }
 }
 
+async function getAllCardsForCollection(id) {
+  try {
+
+    const {rows: collectionCards} = await client.query(`
+    SELECT "collections_cards".collected, cards.*
+    FROM "collections_cards"
+    JOIN cards ON "collections_cards"."cardId" = cards.id
+    WHERE "collectionId"=$1;
+    `, [id]);
+
+    return collectionCards;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateCardCollectedStatus({ collected, id }) {
+  try {
+
+    const {rows: [collectionCard]} = await client.query(`
+    UPDATE "collections_cards"
+    SET collected=$1
+    WHERE id=$2
+    RETURNING *;
+    `, [collected, id]);
+    return collectionCard;
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getCollectionCardById(id) {
+  try {
+
+    const {rows: [collectionCard]} = await client.query(`
+    SELECT id, "collectionId"
+    FROM "collections_cards"
+    WHERE id=$1;
+    `, [id]);
+
+    return collectionCard;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCollectionCard,
   deleteCollectionCard,
+  deleteAllCollectionsCards,
   getCollectionCardById,
-  deleteAllCollectionsCards
+  getAllCardsForCollection,
+  updateCardCollectedStatus
 }

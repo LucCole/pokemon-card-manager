@@ -1,6 +1,10 @@
 
 const { client } = require('./client');
 
+const { 
+  getAllCardsForCollection
+} = require('../db/collectionsCards.js');
+
 async function createCollection({ name, image, numberOfCards, normalCards, secretCards, description, userId }) {
   console.log('userId: ', userId);
   try {
@@ -75,11 +79,16 @@ async function updateCollection({columnsToUpdate, id}) {
 async function getCollectionById(id) {
   try {
 
+    console.log('id: ', id);
     const {rows: [collection]} = await client.query(`
     SELECT *
     FROM collections
     WHERE id=$1;
     `, [id]);
+
+    if(collection){
+      collection.cards = await getAllCardsForCollection(collection.id);
+    }
 
     return collection;
   } catch (error) {
@@ -96,6 +105,11 @@ async function getCollectionByName(name) {
     WHERE name=$1;
     `, [name]);
 
+    
+    if(collection){
+      collection.cards = await getAllCardsForCollection(collection.id);
+    }
+
     return collection;
   } catch (error) {
     throw error;
@@ -110,6 +124,10 @@ async function getAllUserCollections(userId) {
     FROM collections
     WHERE "userId" = $1;
     `, [userId]);
+
+    for(const collection of collections){
+      collection.cards = await getAllCardsForCollection(collection.id);
+    }
 
     return collections;
   } catch (error) {
@@ -149,6 +167,7 @@ async function getAllCollections() {
 // Should we return and error here?
 async function canAccessCollection(collectionId, userId) {
   try{
+    console.log('collectionId, userId: ', collectionId, userId)
 
     const {rows: [collection]} = await client.query(`
     SELECT * FROM collections

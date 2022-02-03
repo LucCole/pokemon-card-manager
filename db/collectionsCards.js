@@ -46,8 +46,24 @@ async function getCollectionCardById(id) {
   }
 }
 
+async function deleteAllCollectionsCards(id) {
+  try {
+
+    const {rows: [collectionCard]} = await client.query(`
+    DELETE FROM "collections_cards"
+    WHERE "collectionId"=$1
+    RETURNING id;
+    `, [id]);
+
+    return collectionCard;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createCollectionCard,
   deleteCollectionCard,
-  getCollectionCardById
+  getCollectionCardById,
+  deleteAllCollectionsCards
 }

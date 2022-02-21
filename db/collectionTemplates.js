@@ -1,6 +1,10 @@
 
 const { client } = require('./client');
 
+const { 
+  getAllCardsForCollectionTemplate
+} = require('../db/collectionTemplatesCards.js');
+
 async function createCollectionTemplate({ name, image, numberOfCards, normalCards, secretCards, description, creatorId }) {
   try {
 
@@ -101,6 +105,25 @@ async function getCollectionTemplateByName(name) {
   }
 }
 
+async function getAllUserCollectionTemplates(userId) {
+  try {
+
+    const {rows: collectionTemplates} = await client.query(`
+    SELECT *
+    FROM "collectionTemplates"
+    WHERE "userId" = $1;
+    `, [userId]);
+
+    for(const collectionTemplate of collectionTemplates){
+      collectionTemplate.cards = await getAllCardsForCollectionTemplate(collectionTemplate.id);
+    }
+
+    return collectionTemplates;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getAllCollectionTemplates() {
   try {
 
@@ -115,11 +138,32 @@ async function getAllCollectionTemplates() {
   }
 }
 
+async function canAccessCollectionTemplate(collectionTemplateId, userId) {
+  try{
+
+    const {rows: [collectionTemplate]} = await client.query(`
+    SELECT * FROM "collectionTemplates"
+    WHERE id = $1
+    AND "userId" = $2;
+    `, [collectionTemplateId, userId]);
+
+    if(collectionTemplate){
+      return true;
+    }
+
+    return false;
+  }catch(error){
+    throw error;
+  }
+}
+
 module.exports = {
   createCollectionTemplate,
   deleteCollectionTemplate,
   updateCollectionTemplate,
   getCollectionTemplateById,
   getCollectionTemplateByName,
-  getAllCollectionTemplates
+  getAllCollectionTemplates,
+  canAccessCollectionTemplate,
+  getAllUserCollectionTemplates
 }

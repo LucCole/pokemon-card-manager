@@ -21,8 +21,8 @@ async function populateInitialData() {
       { username: 'albert', password: 'bertie99', email:'albert@gmail.com' },
       { username: 'sandra', password: 'sandra123', email:'sandra@gmail.com' },
       { username: 'glamgal', password: 'glamgal123', email:'glamgal@gmail.com' },
-      { username: 'pruplebarny', password: 'barney123', email:'barney@gmail.com' },
-      { username: 'luc', password: '12345678', email:'luc@gmail.com', isAdmin:true }
+      { username: 'pruplebarny', password: 'barney123', email:'barney@gmail.com', admin:true },
+      { username: 'luc', password: '12345678', email:'luc@gmail.com', admin:true, superAdmin: true }
     ];
 
     const users = await Promise.all(usersToCreate.map(createUser));

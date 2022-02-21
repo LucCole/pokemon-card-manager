@@ -31,6 +31,37 @@ async function deleteCollectionTemplateCard(id) {
   }
 }
 
+async function deleteAllCollectionTemplateCards(id) {
+  try {
+
+    const {rows: collectionTemplateCards} = await client.query(`
+    DELETE FROM "collectionTemplates_cards"
+    WHERE "collectionId"=$1
+    RETURNING id;
+    `, [id]);
+
+    return collectionTemplateCards;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllCardsForCollectionTemplate(id) {
+  try {
+
+    const {rows: collectionCards} = await client.query(`
+    SELECT "collectionTemplates_cards".collected, cards.*
+    FROM "collectionTemplates_cards"
+    JOIN cards ON "collectionTemplates_cards"."cardId" = cards.id
+    WHERE "collectionId"=$1;
+    `, [id]);
+
+    return collectionCards;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getCollectionTemplateCardById(id) {
   try {
 
@@ -49,5 +80,7 @@ async function getCollectionTemplateCardById(id) {
 module.exports = {
   createCollectionTemplateCard,
   deleteCollectionTemplateCard,
+  deleteAllCollectionTemplateCards,
+  getAllCardsForCollectionTemplate,
   getCollectionTemplateCardById
 }

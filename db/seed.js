@@ -39,7 +39,8 @@ try {
     username VARCHAR(255) NOT NULL, 
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    "isAdmin" BOOLEAN DEFAULT false,
+    admin BOOLEAN,
+    "superAdmin" BOOLEAN,
     UNIQUE (username, email)
   );
   `);

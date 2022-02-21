@@ -1,6 +1,7 @@
 
 const { client } = require('./client');
 
+// admin and super admin only
 async function createSet({ name, series, logo, numberOfCards, normalCards, secretCards }) {
   try {
 
@@ -16,6 +17,7 @@ async function createSet({ name, series, logo, numberOfCards, normalCards, secre
   }
 }
 
+// admin and super admin only
 async function deleteSet(id) {
   try {
 
@@ -31,6 +33,7 @@ async function deleteSet(id) {
   }
 }
 
+// admin and super admin only
 async function updateSet({columnsToUpdate, id}) {
   try {
 
@@ -72,6 +75,11 @@ async function updateSet({columnsToUpdate, id}) {
   }
 }
 
+// For these 3, do I need to bring in all cards for the set here?
+// How do I do this?
+// should I pass in a bool? That migh be the easiest way. Default to false.
+
+// anyone
 async function getSetyById(id) {
   try {
 
@@ -87,6 +95,7 @@ async function getSetyById(id) {
   }
 }
 
+// anyone
 async function getSetByName(command) {
   try {
 
@@ -102,6 +111,7 @@ async function getSetByName(command) {
   }
 }
 
+// anyone
 async function getAllSets() {
   try {
 
@@ -116,6 +126,7 @@ async function getAllSets() {
   }
 }
 
+// anyone
 async function getSetsBySeries(series) {
   try {
 

@@ -17,8 +17,8 @@ const {
 // POST /api/collections
 collectionsRouter.post('/', async (req, res, next) => {
   try {
-    const collectionTemplate = await createCollection({...req.body, userId : req.user.id});
-    res.send(collectionTemplate);
+    const collection = await createCollection({...req.body, userId : req.user.id});
+    res.send(collection);
   } catch (error) {
     next(error);
   }
@@ -50,6 +50,7 @@ collectionsRouter.patch('/:id', async (req, res, next) => {
         })
       }
     }
+
   } catch (error) {
     next(error);
   }
@@ -82,6 +83,7 @@ collectionsRouter.delete('/:id', async (req, res, next) => {
         })
       }
     }
+    
   } catch (error) {
     next(error);
   }

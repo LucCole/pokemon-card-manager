@@ -2,22 +2,24 @@ const { client }= require('./client');
 const bcrypt = require('bcrypt');
 const SALT_COUNT = 10;
 
-async function createUser({ username, password, email, isAdmin = false}) {
+// anyone (do i need to make sure there isnt a super admin already? like if 1 super admin the superAdmin = false even if they ask for it to be true? this way the only super admin would be in the seed data)
+async function createUser({ username, password, email, admin = false, superAdmin = false}) {
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 
   try {
     const {rows: [user]} = await client.query(`
-    INSERT INTO users(username, password, email, "isAdmin") 
+    INSERT INTO users(username, password, email, admin, "superAdmin") 
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (username, email) DO NOTHING 
     RETURNING id, username, email;
-    `, [username, hashedPassword, email, isAdmin]);
+    `, [username, hashedPassword, email, isAdmin, superAdmin]);
     return user;
   } catch (error) {
     throw error;
   }
 }
 
+// user only
 async function updateUser({columnsToUpdate, id}) {
   console.log('columnsToUpdate:', columnsToUpdate);
   console.log('id: ', id);
@@ -31,8 +33,7 @@ async function updateUser({columnsToUpdate, id}) {
       if(
         columnToUpdate.column === 'username' ||
         columnToUpdate.column === 'password' ||
-        columnToUpdate.column === 'email' ||
-        columnToUpdate.column === 'isAdmin'
+        columnToUpdate.column === 'email'
       ){
         columns.push(` "${columnToUpdate.column}"=$${i} `);
         values.push(columnToUpdate.value);
@@ -60,6 +61,7 @@ async function updateUser({columnsToUpdate, id}) {
   }
 }
 
+// user only
 async function deleteUser(id) {
   try {
     const {rows: [User]} = await client.query(`
@@ -73,10 +75,11 @@ async function deleteUser(id) {
   }
 }
 
+// anyone (i think?)
 async function getUserByUsername(userName) {
   try {
     const {rows: [ user ] } = await client.query(`
-    SELECT id, username, password, email
+    SELECT id, username, password, email, admin
     FROM users
     WHERE username = $1;
     `, [userName]);
@@ -89,10 +92,11 @@ async function getUserByUsername(userName) {
   }
 }
 
+// anyone (i think?)
 async function getUserById(userId) {
   try {
     const {rows: [user]} = await client.query(`
-    SELECT id, username, email, "isAdmin"
+    SELECT id, username, email, admin
     FROM users
     WHERE id = $1;
     `, [userId]);
@@ -104,6 +108,7 @@ async function getUserById(userId) {
   }
 }
 
+// anyone
 async function getUser({username, password}) {
   if (!username || !password) {
     return;
@@ -124,6 +129,14 @@ async function getUser({username, password}) {
     throw error;
   }
 }
+
+
+
+// changeAdminStatus ---- ONLY super admin may do this
+
+
+
+
 
 module.exports = {
     createUser,

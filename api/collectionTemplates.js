@@ -8,24 +8,16 @@ const {
   updateCollectionTemplate,
   getCollectionTemplateById,
   getCollectionTemplateByName,
-  getAllCollectionTemplates
+  getAllCollectionTemplates,
+  canAccessCollectionTemplate,
+  deleteAllCollectionTemplateCards,
+  getAllUserCollectionTemplates
 } = require('../db');
 
 // POST /api/collection-templates
 collectionTemplatesRouter.post('/', async (req, res, next) => {
   try {
-    const collectionTemplate = await createCollectionTemplate(req.body);
-    res.send(collectionTemplate);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// DELETE /api/collection-templates/:id
-collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
-  console.log(req.params.id);
-  try {
-    const collectionTemplate = await deleteCollectionTemplate(req.params.id);
+    const collectionTemplate = await createCollectionTemplate({...req.body, userId : req.user.id});
     res.send(collectionTemplate);
   } catch (error) {
     next(error);
@@ -35,8 +27,63 @@ collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
 // PATCH /api/collection-templates/:id
 collectionTemplatesRouter.patch('/:id', async (req, res, next) => {
   try {
-    const collectionTemplate = await updateCollectionTemplate({...req.body, id: req.params.id});
-    res.send(collectionTemplate);
+
+    const collectionTemplateId = req.params.id;
+    const doesCollectionTemplateExist = await getCollectionTemplateById(collectionTemplateId);
+
+    if(!doesCollectionTemplateExist){
+      next({
+        name: 'NotFound',
+        message: `No collection found by ID ${collectionTemplateId}`
+      })
+    }else{
+
+      const canAccess = await canAccessCollectionTemplate(collectionTemplateId, req.user.id);
+
+      if(canAccess){
+        const collectionTemplate = await updateCollectionTemplate({...req.body, id: req.params.id});
+        res.send(collectionTemplate);
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection`
+        })
+      }
+    }
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE /api/collection-templates/:id
+collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
+  try {
+
+    const collectionTemplateId = req.params.id;
+    const doesCollectionTemplateExist = await getCollectionTemplateById(collectionTemplateId);
+
+    if(!doesCollectionTemplateExist){
+      next({
+        name: 'NotFound',
+        message: `No collection found by ID ${collectionTemplateId}`
+      })
+    }else{
+
+      const canAccess = await canAccessCollectionTemplate(collectionTemplateId, req.user.id);
+
+      if(canAccess){
+        await deleteAllCollectionTemplateCards(collectionTemplateId);
+        const collectionTemplate = await deleteCollectionTemplate(collectionTemplateId);
+        res.send(collectionTemplate);
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection`
+        })
+      }
+    }
+
   } catch (error) {
     next(error);
   }
@@ -45,15 +92,30 @@ collectionTemplatesRouter.patch('/:id', async (req, res, next) => {
 // GET /api/collection-templates/id/:id
 collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
   try {
-    const collectionTemplate = await getCollectionTemplateById(req.params.id);
-    if(typeof collectionTemplate === 'object'){
-      res.send(collectionTemplate);
+
+    const collectionId = req.params.id;
+    const collectionTemplate = await getCollectionTemplateById(collectionId);
+
+    if(!collectionTemplate){
+      next({
+        name: 'NotFound',
+        message: `No collection template found by ID ${collectionId}`
+      })
     }else{
-      res.send({
-        error:'Inncorect Id',
-        message: "There is no collection template with that id"
-      });
+
+      const canAccess = await canAccessCollectionTemplate(collectionId, req.user.id);
+
+      if(canAccess){
+        res.send(collectionTemplate);
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection template`
+        })
+      }
     }
+
+
   } catch (error) {
     next(error);
   }
@@ -62,15 +124,49 @@ collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
 // GET /api/collection-templates/name/:name
 collectionTemplatesRouter.get('/name/:name', async (req, res, next) => {
   try {
-    const collectionTemplate = await getCollectionTemplateByName(req.params.name);
-    if(typeof collectionTemplate === 'object'){
-      res.send(collectionTemplate);
+
+    const collectionTemplateName = req.params.name;
+    const collectionTemplate = await getCollectionTemplateByName(collectionTemplateName);
+
+    if(!collectionTemplate){
+      next({
+        name: 'NotFound',
+        message: `No collection template found by Name ${collectionTemplateName}`
+      })
     }else{
-      res.send({
-        error:'Inncorect name',
-        message: `There is no collection template named ${req.params.name}`
-      });
+
+      const canAccess = await canAccessCollectionTemplate(collectionTemplate.id, req.user.id);
+
+      if(canAccess){
+        res.send(collectionTemplate);
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection template`
+        })
+      }
     }
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET /api/collections-templates/user/:id
+collectionTemplatesRouter.get('/user', async (req, res, next) => {
+  try {
+    const collectionTemplates = await getAllUserCollectionTemplates(req.params.id);
+    res.send(collectionTemplates);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET /api/collections-templates/user
+collectionTemplatesRouter.get('/user', async (req, res, next) => {
+  try {
+    const collectionTemplates = await getAllUserCollectionTemplates(req.user.id);
+    res.send(collectionTemplates);
   } catch (error) {
     next(error);
   }

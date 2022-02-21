@@ -1,6 +1,7 @@
 
 const { client } = require('./client');
 
+// admin and super admin only
 async function createCard({ name, image, set, numberInSet, rarity, version, cardType, type, hitPoints, artist }) {
   try {
 
@@ -16,6 +17,7 @@ async function createCard({ name, image, set, numberInSet, rarity, version, card
   }
 }
 
+// admin and super admin only
 async function deleteCard(id) {
   try {
 
@@ -31,6 +33,7 @@ async function deleteCard(id) {
   }
 }
 
+// admin and super admin only
 async function updateCard({columnsToUpdate, id}) {
   try {
 

@@ -34,6 +34,7 @@ async function deleteCollectionCard(id) {
 async function deleteAllCollectionsCards(id) {
   try {
 
+    // ?? rows : collectionCards ?? should't this be the plural var?
     const {rows: [collectionCard]} = await client.query(`
     DELETE FROM "collections_cards"
     WHERE "collectionId"=$1

@@ -1,16 +1,14 @@
 {
-  "name": "pokemon-card-manager",
+  "name": "react_hello_world",
   "version": "1.0.0",
-  "description": "An app that will allow you to keep track of your Pokémon card collections",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "server:dev": "nodemon index.js",
-    "db:build": "node ./db/seed.js",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LucCole/pokemon-card-manager.git"
+    "server:start": "node index.js",
+    "db:build": "node ./db/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -19,27 +17,32 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "axios": "^0.19.2",
+    "JSON": "^1.0.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "env": "^0.0.2",
     "express": "^4.17.2",
-    "JSON": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
     "token": "^0.1.0",
     "web": "^0.0.2"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
-  },
-  "bugs": {
-    "url": "https://github.com/LucCole/pokemon-card-manager/issues"
-  },
-  "homepage": "https://github.com/LucCole/pokemon-card-manager#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

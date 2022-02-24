@@ -3,6 +3,7 @@ const { client } = require('./client');
 
 // admin and super admin only
 async function createCard({ name, image, set, numberInSet, rarity, version, cardType, type, hitPoints, artist }) {
+  console.log('numberInSet: ', numberInSet);
   try {
 
     const {rows: [card]} = await client.query(`

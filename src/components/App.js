@@ -1,4 +1,6 @@
 import React from 'react';
+import { Route, Routes } from "react-router-dom";
+
 import { CardRow } from './';
 
 
@@ -43,7 +45,9 @@ const cards = [
 
 const App = () => {
   return <>
-    <CardRow cards={cards}></CardRow>
+    <Routes>
+      <Route path='/' element={<CardRow cards={cards}></CardRow>}/>
+    </Routes>
   </>
 }
 

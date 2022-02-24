@@ -20,8 +20,8 @@ const CardRow = ({cards}) => {
   return (
     <div className={classes.cardRow}>
       
-      {cards?.map((card) => (
-        <Card name={card.name} series={card.series} setNumber={card.setNumber} cardsInSet={card.cardsInSet} image={card.image}></Card>
+      {cards?.map((card, index) => (
+        <Card name={card.name} series={card.series} setNumber={card.setNumber} cardsInSet={card.cardsInSet} image={card.image} key={'card-'+index}></Card>
       ))}
 
     </div>

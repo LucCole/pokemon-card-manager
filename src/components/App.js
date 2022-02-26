@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 
-import { CardRow } from './';
+import { CardRow, Set, SetInfo } from './';
+
+
 
 
 const cards = [
@@ -45,6 +47,9 @@ const cards = [
 
 const App = () => {
   return <>
+    <Routes>
+      <Route path='/sets/id/:id' element={<Set></Set>}/>
+    </Routes>
     <Routes>
       <Route path='/' element={<CardRow cards={cards}></CardRow>}/>
     </Routes>

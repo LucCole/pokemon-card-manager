@@ -9,10 +9,13 @@ const {
   getUserByUsername,
   getUser,
   getUserById,
-  updateUser
+  updateUser,
+  getUserProfile
 } = require('../db'); 
 
 const { JWT_SECRET } = process.env;
+
+console.log('JWT_SECRET: ', JWT_SECRET);
 
 // POST /api/users/register
 userRouter.post('/register', async (req, res, next) => {
@@ -77,6 +80,26 @@ userRouter.get('/login', async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+});
+
+
+// GET /api/users/me
+userRouter.get('/me',  async (req, res, next) => {
+  try {
+    res.send(req.user);
+  } catch (error) {
+    next(error)
+  }
+});
+
+// GET /api/users/profile/:id
+userRouter.get('/profile/:id', async (req, res, next) => {
+  try {
+    const user = await getUserById(req.params.id);
+    res.send(user);
+  } catch (error) {
+    next(error)
   }
 });
 

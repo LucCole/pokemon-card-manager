@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import { Route, Routes } from "react-router-dom";
 
-import { CardRow, Set, CollectionTemplate, CollectionTemplates } from './';
+import { getUser } from '../api';
+
+import { 
+  CardRow, 
+  Set, 
+  CollectionTemplate, 
+  CollectionTemplates, 
+  UserForm, 
+  UserProfile 
+} from './';
 
 
 
@@ -46,10 +55,35 @@ const cards = [
 
 
 const App = () => {
+
+
+
+  const [token, setToken] = useState('');
+  const [userData, setUserData] = useState({});
+
+  // token / userData
+  useEffect(async () => {
+    if (!token) {
+      setToken(localStorage.getItem('pokemon-card-manager-token'));
+      return;
+    }
+    const data = await getUser(token);
+    setUserData(data);
+  }, [token]);
+
+
+
   return <>
     <Routes>
-      <Route path='/sets/id/:id' element={<Set></Set>}/>
-      <Route path='/' element={<CardRow cards={cards}></CardRow>}/>
+
+      {/* Users */}
+      <Route path='/register' element={<UserForm action='register' setToken={setToken} setUserData={setUserData}/>}/>
+      <Route path='/login' element={<UserForm action='login' setToken={setToken} setUserData={setUserData}/>}/>
+      <Route path='/users/profile' element={<UserProfile userData={userData} token={token}/>}/>
+
+
+      <Route path='/sets/id/:id' element={<Set />}/>
+      <Route path='/' element={<CardRow cards={cards} />}/>
 
 
 

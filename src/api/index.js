@@ -28,3 +28,4 @@ export const callApi = async ({ url, method, token, body }) => {
 
 export * from './sets';
 export * from './collectionTemplates';
+export * from './users';

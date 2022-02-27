@@ -81,7 +81,7 @@ async function deleteUser(id) {
 async function getUserByUsername(userName) {
   try {
     const {rows: [ user ] } = await client.query(`
-    SELECT id, username, password, email, admin
+    SELECT id, username, password, email, admin, "superAdmin"
     FROM users
     WHERE username = $1;
     `, [userName]);
@@ -98,7 +98,7 @@ async function getUserByUsername(userName) {
 async function getUserById(userId) {
   try {
     const {rows: [user]} = await client.query(`
-    SELECT id, username, email, admin
+    SELECT id, username, email, admin, "superAdmin"
     FROM users
     WHERE id = $1;
     `, [userId]);

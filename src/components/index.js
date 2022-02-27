@@ -1,8 +1,10 @@
 export { default as App } from './App';
-export { default as Card } from './Card';
-export { default as CardRow } from './CardRow';
+export { default as Card } from './cards/Card';
+export { default as CardRow } from './cards/CardRow';
 export { default as Set } from './Set';
 export { default as SetInfo } from './SetInfo';
-export { default as CollectionTemplateInfo } from './CollectionTemplateInfo';
-export { default as CollectionTemplates } from './CollectionTemplates';
-export { default as CollectionTemplate } from './CollectionTemplate';
+export { default as CollectionTemplateInfo } from './collections/CollectionTemplateInfo';
+export { default as CollectionTemplates } from './collections/CollectionTemplates';
+export { default as CollectionTemplate } from './collections/CollectionTemplate';
+export { default as UserForm } from './users/UserForm';
+export { default as UserProfile } from './users/UserProfile';

@@ -25,7 +25,7 @@ const Set = () => {
       "name" in set
       ?
       <div>
-        <h3></h3>
+        <h3>{set.name}</h3>
         <div></div>
       </div>
       :

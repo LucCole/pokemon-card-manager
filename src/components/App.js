@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 
-import { CardRow, Set, SetInfo } from './';
+import { CardRow, Set, CollectionTemplate, CollectionTemplates } from './';
 
 
 
@@ -49,9 +49,18 @@ const App = () => {
   return <>
     <Routes>
       <Route path='/sets/id/:id' element={<Set></Set>}/>
-    </Routes>
-    <Routes>
       <Route path='/' element={<CardRow cards={cards}></CardRow>}/>
+
+
+
+      {/*
+      We need
+      
+      list of collection templates
+      the induvidual template itself
+      */}
+      <Route path='/collection-templates/id/:id' element={<CollectionTemplate />}/>
+      <Route path='/collection-templates' element={<CollectionTemplates />}/>
     </Routes>
   </>
 }

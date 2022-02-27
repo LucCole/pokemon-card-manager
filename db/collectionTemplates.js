@@ -111,7 +111,7 @@ async function getAllUserCollectionTemplates(userId) {
     const {rows: collectionTemplates} = await client.query(`
     SELECT *
     FROM "collectionTemplates"
-    WHERE "userId" = $1;
+    WHERE "creatorId" = $1;
     `, [userId]);
 
     for(const collectionTemplate of collectionTemplates){

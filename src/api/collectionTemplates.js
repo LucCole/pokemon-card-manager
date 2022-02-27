@@ -3,6 +3,26 @@ import { callApi } from './';
 
 
 
+
+
+export const createCollectionTemplate = async ({body, token}) => {
+    const data = await callApi({
+        method: 'POST',
+        url: `collection-templates/`,
+        body,
+        token
+    });
+    return data;
+};
+
+export const getUsersCollectionTemplates = async (userId) => {
+  const data = await callApi({
+      url: `collection-templates/user/${userId}`
+  });
+  return data;
+};
+
+
 export const getAllCollectionTemplates = async () => {
   const data = await callApi({
       url: `collection-templates`

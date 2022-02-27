@@ -18,7 +18,8 @@ const {
 // POST /api/collection-templates
 collectionTemplatesRouter.post('/', async (req, res, next) => {
   try {
-    const collectionTemplate = await createCollectionTemplate({...req.body, userId : req.user.id});
+    console.log('req.user: ', req.user);
+    const collectionTemplate = await createCollectionTemplate({...req.body, creatorId : req.user.id});
     res.send(collectionTemplate);
   } catch (error) {
     next(error);
@@ -158,7 +159,7 @@ collectionTemplatesRouter.get('/name/:name', async (req, res, next) => {
 });
 
 // GET /api/collections-templates/user/:id
-collectionTemplatesRouter.get('/user', async (req, res, next) => {
+collectionTemplatesRouter.get('/user/:id', async (req, res, next) => {
   try {
     const collectionTemplates = await getAllUserCollectionTemplates(req.params.id);
     res.send(collectionTemplates);

@@ -1,99 +1,115 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, TextField } from '@material-ui/core';
-import { userRegister } from "../../api";
+import { createCollectionTemplate } from "../../api";
 
-const UserForm = ({ action, setToken, setUserData }) => {
+const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token }) => {
+
+  if(!userData.id){
+    return (<h1>Please login to see this page</h1>);
+  }
 
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const [numberOfCards, setNumberOfCards] = useState('');
   const [normalCards, setNormalCards] = useState('');
   const [secretCards, setSecretCards] = useState('');
-  const [description, setDdscription] = useState('');
-
-  const isLogin = action === 'login';
-  const title = isLogin ? 'Login' : 'Register';
-  const oppositeAction = isLogin ? 'register' : 'login';
-  const oppositeTitle = isLogin ? 'Register' : 'Login';
 
   const formSubmit = async (event) => {
     event.preventDefault();
 
-    const body = {username, password}
-
-    if(!isLogin){
-      body.email = email;
+    const requestInfo = {
+      body: {
+        name,
+        description,
+        image,
+        numberOfCards,
+        normalCards,
+        secretCards,
+      },
+      token
     }
-    
-    // !! put in the call api functions
-    const data = await userRegister({
-      username: username,
-      email: email,
-      password: password
-    });
 
-    if(typeof data === 'object'){
-      localStorage.setItem( 'pokemon-card-manager-token', data.token );
-      setToken(data.token);
-      setUserData(data.user);
-      // ??
-      navigate('/users/profile');
+    let data = null;
+
+    if(isTemplate){
+      data = await createCollectionTemplate(requestInfo);
     }else{
-      alert(data);
+      // data = await createCollection(requestInfo);
     }
+
+    // if(typeof data === 'object'){
+    //   localStorage.setItem( 'pokemon-card-manager-token', data.token );
+    //   setToken(data.token);
+    //   setUserData(data.user);
+    //   // ??
+    //   navigate('/users/profile');
+    // }else{
+    //   alert(data);
+    // }
   };
 
   return (
     <>
       <form onSubmit={formSubmit}>
 
-        <h2 id="registerhead">Welcome, Please {title}</h2>
+        <h2 id="registerhead">Welcome, please {isCreate?'create':'edit'} {isTemplate?'collection template':'collection'}</h2>
 
         <TextField 
           type="text" 
-          label="Username" 
+          label="Collection Name" 
           required
           minLength="3"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          value={name}
+          onChange={(event) => setName(event.target.value)}
         />
 
-        {isLogin ?  null :
         <TextField 
-          type="email" 
-          label="Email" 
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          type="text" 
+          label="Description" 
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
         />
-        }
 
         <TextField 
-          type="password" 
-          label="Password" 
-          required
-          minLength="8"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          type="text" 
+          label="Image" 
+          value={image}
+          onChange={(event) => setImage(event.target.value)}
+        />
+
+        <TextField 
+          type="text" 
+          label="Number Of Cards"
+          value={numberOfCards}
+          onChange={(event) => setNumberOfCards(event.target.value)}
+        />
+
+        <TextField 
+          type="text" 
+          label="normalCards"
+          value={normalCards}
+          onChange={(event) => setNormalCards(event.target.value)}
+        />
+
+        <TextField 
+          type="text" 
+          label="Secret Cards" 
+          value={secretCards}
+          onChange={(event) => setSecretCards(event.target.value)}
         />
 
         <Button 
           variant="contained" 
           type="submit">
-          {title}
-        </Button>
-
-        <p> {isLogin ? "Don't have" : 'Have'} an Account?</p>
-        <Button 
-          variant="contained" 
-          type="submit">
-          <Link to={`/${oppositeAction}`}>{oppositeTitle}</Link>
+          {isCreate?'Create':'Update'}
         </Button>
       </form>
     </>
   );
 };
 
-export default UserForm;
+export default CollectionForm;

@@ -9,7 +9,8 @@ import {
   CollectionTemplate, 
   CollectionTemplates, 
   UserForm, 
-  UserProfile 
+  UserProfile,
+  CollectionForm
 } from './';
 
 
@@ -93,6 +94,14 @@ const App = () => {
       list of collection templates
       the induvidual template itself
       */}
+      <Route path='/collection-template-form' element={
+        <CollectionForm 
+          isTemplate={true} 
+          isCreate={true} 
+          setToken={setToken} 
+          setUserData={setUserData} 
+          userData={userData} token={token} 
+        />}/>
       <Route path='/collection-templates/id/:id' element={<CollectionTemplate />}/>
       <Route path='/collection-templates' element={<CollectionTemplates />}/>
     </Routes>

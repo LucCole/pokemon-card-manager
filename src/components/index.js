@@ -3,6 +3,7 @@ export { default as Card } from './cards/Card';
 export { default as CardRow } from './cards/CardRow';
 export { default as Set } from './Set';
 export { default as SetInfo } from './SetInfo';
+export { default as CollectionForm } from './collections/CollectionForm';
 export { default as CollectionTemplateInfo } from './collections/CollectionTemplateInfo';
 export { default as CollectionTemplates } from './collections/CollectionTemplates';
 export { default as CollectionTemplate } from './collections/CollectionTemplate';

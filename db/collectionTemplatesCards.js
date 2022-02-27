@@ -49,12 +49,16 @@ async function deleteAllCollectionTemplateCards(id) {
 async function getAllCardsForCollectionTemplate(id) {
   try {
 
+    console.log(id);
+
     const {rows: collectionCards} = await client.query(`
-    SELECT "collectionTemplates_cards".collected, cards.*
+    SELECT cards.*
     FROM "collectionTemplates_cards"
     JOIN cards ON "collectionTemplates_cards"."cardId" = cards.id
-    WHERE "collectionId"=$1;
+    WHERE "collectionTemplateId"=$1;
     `, [id]);
+
+    console.log(collectionCards);
 
     return collectionCards;
   } catch (error) {

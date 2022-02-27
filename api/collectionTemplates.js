@@ -11,7 +11,8 @@ const {
   getAllCollectionTemplates,
   canAccessCollectionTemplate,
   deleteAllCollectionTemplateCards,
-  getAllUserCollectionTemplates
+  getAllUserCollectionTemplates,
+  getAllCardsForCollectionTemplate
 } = require('../db');
 
 // POST /api/collection-templates
@@ -103,16 +104,20 @@ collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
       })
     }else{
 
-      const canAccess = await canAccessCollectionTemplate(collectionId, req.user.id);
+      collectionTemplate.cards = await getAllCardsForCollectionTemplate(collectionTemplate.id);
 
-      if(canAccess){
+      // !! do we really need this?? -- removing it for now !!
+
+      //const canAccess = await canAccessCollectionTemplate(collectionId, req.user.id);
+
+      //if(canAccess){
         res.send(collectionTemplate);
-      }else{
-        next({
-          name: 'CantAccess',
-          message: `You do not have access this collection template`
-        })
-      }
+      // }else{
+      //   next({
+      //     name: 'CantAccess',
+      //     message: `You do not have access this collection template`
+      //   })
+      // }
     }
 
 

@@ -8,6 +8,8 @@ import {
 
 const UserProfile = ({ userData, token }) => {
 
+  console.log(userData);
+
   if(!userData.id){
     return (<h1>Please login to see this page</h1>);
   }

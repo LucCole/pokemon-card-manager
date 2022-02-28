@@ -1,4 +1,3 @@
-
 const express = require('express');
 const userRouter = express.Router();
 const jwt = require('jsonwebtoken');
@@ -9,13 +8,37 @@ const {
   getUserByUsername,
   getUser,
   getUserById,
-  updateUser,
-  getUserProfile
+  updateUser
 } = require('../db'); 
 
 const { JWT_SECRET } = process.env;
 
-console.log('JWT_SECRET: ', JWT_SECRET);
+// GET /api/users/login
+userRouter.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    next({
+      name: 'MissingCredentialsError',
+      message: 'Please supply both a username and password'
+    });
+  }
+
+  try {
+    const user = await getUser({username, password});
+    if(!user) {
+      next({
+        name: 'IncorrectCredentialsError',
+        message: 'Username or password is incorrect',
+      })
+    } else {
+      const token = jwt.sign({id: user.id, username: user.username}, JWT_SECRET, { expiresIn: '1w' });
+      res.send({ user, username, message: "you're logged in!", token });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 // POST /api/users/register
 userRouter.post('/register', async (req, res, next) => {
@@ -53,33 +76,6 @@ userRouter.post('/register', async (req, res, next) => {
     }
   } catch (error) {
     next(error)
-  }
-});
-
-// GET /api/users/login
-userRouter.get('/login', async (req, res, next) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    next({
-      name: 'MissingCredentialsError',
-      message: 'Please supply both a username and password'
-    });
-  }
-
-  try {
-    const user = await getUser({username, password});
-    if(!user) {
-      next({
-        name: 'IncorrectCredentialsError',
-        message: 'Username or password is incorrect',
-      })
-    } else {
-      const token = jwt.sign({id: user.id, username: user.username}, JWT_SECRET, { expiresIn: '1w' });
-      res.send({ user, username, message: "you're logged in!", token });
-    }
-  } catch (error) {
-    next(error);
   }
 });
 

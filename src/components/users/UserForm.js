@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, TextField } from '@material-ui/core';
-import { userRegister } from "../../api";
+import { userRegister, userLogin } from "../../api";
 
 const UserForm = ({ action, setToken, setUserData }) => {
 
@@ -23,18 +23,31 @@ const UserForm = ({ action, setToken, setUserData }) => {
 
     const body = {username, password}
 
-    if(!isLogin){
-      body.email = email;
-    }
-    
-    // !! put in the call api functions
-    const data = await userRegister({
-      username: username,
-      email: email,
-      password: password
-    });
+    let data = null;
 
+
+    console.log(isLogin);
+
+    if(isLogin){
+      console.log('Loggin in');
+    
+      body.email = email;
+
+      data = await userLogin({
+        username: username,
+        password: password
+      });
+    }else{
+      data = await userRegister({
+        username: username,
+        email: email,
+        password: password
+      });
+    }
+      
     if(typeof data === 'object'){
+
+      console.log('Worked: ', data);
       localStorage.setItem( 'pokemon-card-manager-token', data.token );
       setToken(data.token);
       setUserData(data.user);

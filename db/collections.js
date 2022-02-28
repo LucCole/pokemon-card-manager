@@ -87,8 +87,11 @@ async function getCollectionById(id) {
     `, [id]);
 
     if(collection){
+      // console.log("collection.id", collection.id);
       collection.cards = await getAllCardsForCollection(collection.id);
     }
+
+    // console.log(collection);
 
     return collection;
   } catch (error) {

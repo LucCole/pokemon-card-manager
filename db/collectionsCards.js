@@ -57,6 +57,8 @@ async function getAllCardsForCollection(id) {
     WHERE "collectionId"=$1;
     `, [id]);
 
+    // console.log('collectionCards', collectionCards);
+
     return collectionCards;
   } catch (error) {
     throw error;

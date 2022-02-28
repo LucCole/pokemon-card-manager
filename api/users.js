@@ -42,7 +42,6 @@ userRouter.post('/login', async (req, res, next) => {
 
 // POST /api/users/register
 userRouter.post('/register', async (req, res, next) => {
-  console.log('register');
   try {
     const {username, email, password} = req.body;
     const queriedUser = await getUserByUsername(username);

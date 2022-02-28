@@ -32,6 +32,7 @@ apiRouter.use(async (req, res, next) => {
           message: `Authorization token must start with ${ prefix }`
       });
   }
+
 });
 
 apiRouter.get('/health', async (req, res, next) =>{

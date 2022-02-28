@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile, getUsersCollectionTemplates } from '../../api';
+import { getUserProfile, getUsersCollectionTemplates, getUsersCollections } from '../../api';
 // import { Button, TextField } from '@material-ui/core';
 // import { editUserProfile, editUserEmail, editUserPassword } from "../../api";
 import { 
-  CollectionTemplateInfo
+  CollectionTemplateInfo,
+  CollectionInfo
 } from '../';
 
 const UserProfile = ({ userData, token }) => {
-
-  console.log(userData);
 
   if(!userData.id){
     return (<h1>Please login to see this page</h1>);
@@ -16,17 +15,20 @@ const UserProfile = ({ userData, token }) => {
 
   const [userProfile, setUserProfile] = useState({});
   const [usersCollectionTemplates, setUsersCollectionTemplates] = useState([]);
+  const [usersCollections, setUsersCollections] = useState([]);
 
   useEffect(async () => {
     // user information
     const userProfileData = await getUserProfile(userData.id);
-    console.log(userProfileData);
     setUserProfile(userProfileData);
 
     // collection templates
     const usersCollectionTemplatesData = await getUsersCollectionTemplates(userData.id);
-    console.log(usersCollectionTemplatesData);
     setUsersCollectionTemplates(usersCollectionTemplatesData);
+
+    // collection templates
+    const usersCollectionsData = await getUsersCollections(token);
+    setUsersCollections(usersCollectionsData);
   }, []);
 
 
@@ -172,6 +174,11 @@ const UserProfile = ({ userData, token }) => {
       <br></br>
       
       <h2>Your collections</h2>
+
+      {usersCollections?.map((collection, index) => (
+        <CollectionInfo name={collection.name} description={collection.description} image={collection.image} key={'collection-'+index}></CollectionInfo>
+      ))}
+
       <br></br>
 
       {/* <h2>View</h2>

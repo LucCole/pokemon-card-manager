@@ -1,10 +1,5 @@
 import { callApi } from './';
 
-
-
-
-
-
 export const createCollectionTemplate = async ({body, token}) => {
     const data = await callApi({
         method: 'POST',

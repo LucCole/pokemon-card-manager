@@ -7,6 +7,8 @@ export { default as CollectionForm } from './collections/CollectionForm';
 export { default as CollectionTemplateInfo } from './collections/CollectionTemplateInfo';
 export { default as CollectionTemplates } from './collections/CollectionTemplates';
 export { default as CollectionTemplate } from './collections/CollectionTemplate';
+export { default as CollectionInfo } from './collections/CollectionInfo';
+export { default as Collection } from './collections/Collection';
 export { default as TemplateIntoCollectionButton } from './collections/TemplateIntoCollectionButton';
 export { default as UserForm } from './users/UserForm';
 export { default as UserProfile } from './users/UserProfile';

@@ -16,6 +16,8 @@ const UsersCollectionTemplates = ({  }) => {
     // collection templates
     const usersCollectionTemplatesData = await getUsersCollectionTemplates(id);
     setUsersCollectionTemplates(usersCollectionTemplatesData);
+
+    console.log(usersCollectionTemplatesData);
   }, []);
 
   return (

@@ -22,7 +22,15 @@ const AllCollectionTemplates = () => {
     All Collection Templates
     {
       collectionTemplates?.map((collectionTemplate, index) => (
-      <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image} key={'collection-templates-'+index}></CollectionHeader>)
+      <CollectionHeader 
+        name={collectionTemplate.name} 
+        id={collectionTemplate.id}
+        description={collectionTemplate.description} 
+        image={collectionTemplate.image} 
+        creatorId={collectionTemplate.creatorId} 
+        creatorName={collectionTemplate.creatorName} 
+        key={'collection-templates-'+index}
+      ></CollectionHeader>)
       )
     }
     </>

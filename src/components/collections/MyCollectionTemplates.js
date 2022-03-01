@@ -27,7 +27,13 @@ const MyCollectionTemplates = ({ userData, token }) => {
       {usersCollectionTemplates.length > 0
       ?
       usersCollectionTemplates.map((collectionTemplate, index) => (
-        <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image} key={'collection-templates-'+index}></CollectionHeader>
+        <CollectionHeader 
+          name={collectionTemplate.name} 
+          id={collectionTemplate.id}
+          description={collectionTemplate.description} 
+          image={collectionTemplate.image} 
+          key={'collection-templates-'+index}
+        ></CollectionHeader>
       ))
     :
     'You have no collection templates'}

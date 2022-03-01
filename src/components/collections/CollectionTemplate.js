@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCollectionTemplateById } from '../../api';
+import { Button } from '@material-ui/core';
+
+
+import { getCollectionTemplateById, deleteCollectionTemplate } from '../../api';
 
 import { CardRow, CollectionHeader } from '..';
 
 
-const CollectionTemplate = () => {
+const CollectionTemplate = ({userData, token}) => {
 
   const [ collectionTemplate, setCollectionTemplate ] = useState(null);
 
@@ -21,13 +24,43 @@ const CollectionTemplate = () => {
       }
   }, [id]);
 
+  const deleteHandler = async (collectionTemplateId) => {
+
+    const data = await deleteCollectionTemplate(collectionTemplateId, token);
+
+    if(typeof data === 'object'){
+      console.log('deleted');
+    }
+  };
+
   return (
     <>
     {
       collectionTemplate
       ?
       <div>
-        <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image}></CollectionHeader>
+        <CollectionHeader 
+          name={collectionTemplate.name} 
+          description={collectionTemplate.description} 
+          image={collectionTemplate.image}
+        ></CollectionHeader>
+        {
+          userData.id === collectionTemplate.id
+          ?
+        
+          <Button 
+            variant="contained"
+            onClick={() => {
+              deleteHandler(collectionTemplate.id);
+            }}
+          >
+            Delete
+          </Button>
+  
+          :
+          null
+        }
+
         {collectionTemplate.cards.length > 0
         ?
         <CardRow cards={collectionTemplate.cards}></CardRow>

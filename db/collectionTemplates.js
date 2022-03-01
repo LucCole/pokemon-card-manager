@@ -145,7 +145,7 @@ async function canAccessCollectionTemplate(collectionTemplateId, userId) {
     const {rows: [collectionTemplate]} = await client.query(`
     SELECT * FROM "collectionTemplates"
     WHERE id = $1
-    AND "userId" = $2;
+    AND "creatorId" = $2;
     `, [collectionTemplateId, userId]);
 
     if(collectionTemplate){

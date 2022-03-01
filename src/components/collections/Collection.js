@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCollectionById } from '../../api';
+import { Button } from '@material-ui/core';
+
+import { getCollectionById, deleteCollection } from '../../api';
 
 import { CardRow, CollectionHeader } from '..';
-
 
 const Collection = ({userData, token}) => {
 
@@ -24,6 +25,15 @@ const Collection = ({userData, token}) => {
     }
   }, [id]);
 
+  const deleteHandler = async (collectionId) => {
+
+    const data = await deleteCollection(collectionId, token);
+
+    if(typeof data === 'object'){
+      console.log('deleted');
+    }
+  };
+
   return (
     <>
     {
@@ -31,6 +41,18 @@ const Collection = ({userData, token}) => {
       ?
       <div>
         <CollectionHeader name={collection.name} description={collection.description} image={collection.image}></CollectionHeader>
+        
+        
+        <Button 
+          variant="contained"
+          onClick={() => {
+            deleteHandler(collection.id);
+          }}
+        >
+          Delete
+        </Button>
+
+
         {collection.cards.length > 0
         ?
         <CardRow cards={collection.cards}></CardRow>
@@ -39,7 +61,7 @@ const Collection = ({userData, token}) => {
         }
       </div>
       :
-      'No collection found by that id'
+      "You don't have access to this page"
     }
     </>
   );

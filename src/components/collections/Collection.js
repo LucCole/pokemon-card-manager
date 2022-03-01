@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCollectionById } from '../../api';
 
-import { CardRow, CollectionInfo } from '..';
+import { CardRow, CollectionHeader } from '..';
 
 
 const Collection = ({userData, token}) => {
@@ -30,7 +30,7 @@ const Collection = ({userData, token}) => {
       collection
       ?
       <div>
-        <CollectionInfo name={collection.name} description={collection.description} image={collection.image}></CollectionInfo>
+        <CollectionHeader name={collection.name} description={collection.description} image={collection.image}></CollectionHeader>
         {collection.cards.length > 0
         ?
         <CardRow cards={collection.cards}></CardRow>

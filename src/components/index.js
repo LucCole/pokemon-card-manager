@@ -4,11 +4,17 @@ export { default as CardRow } from './cards/CardRow';
 export { default as Set } from './Set';
 export { default as SetInfo } from './SetInfo';
 export { default as CollectionForm } from './collections/CollectionForm';
-export { default as CollectionTemplateInfo } from './collections/CollectionTemplateInfo';
-export { default as CollectionTemplates } from './collections/CollectionTemplates';
-export { default as CollectionTemplate } from './collections/CollectionTemplate';
-export { default as CollectionInfo } from './collections/CollectionInfo';
-export { default as Collection } from './collections/Collection';
 export { default as TemplateIntoCollectionButton } from './collections/TemplateIntoCollectionButton';
+
+// Users
 export { default as UserForm } from './users/UserForm';
 export { default as UserProfile } from './users/UserProfile';
+
+// Collections and Collection Templates
+export { default as CollectionHeader } from './collections/CollectionHeader';
+export { default as AllCollectionTemplates } from './collections/AllCollectionTemplates';
+export { default as MyCollectionTemplates } from './collections/MyCollectionTemplates';
+export { default as UsersCollectionTemplates } from './collections/UsersCollectionTemplates';
+export { default as CollectionTemplate } from './collections/CollectionTemplate';
+export { default as MyCollections } from './collections/MyCollections';
+export { default as Collection } from './collections/Collection';

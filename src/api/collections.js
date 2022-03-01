@@ -10,7 +10,7 @@ export const createCollection = async ({body, token}) => {
     return data;
 };
 
-export const getUsersCollections = async (token) => {
+export const getMyCollections = async (token) => {
   const data = await callApi({
       url: `collections/user`,
       token

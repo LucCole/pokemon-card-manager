@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile, getUsersCollectionTemplates, getUsersCollections } from '../../api';
+import { getUserProfile, getUsersCollectionTemplates, getMyCollections } from '../../api';
 // import { Button, TextField } from '@material-ui/core';
 // import { editUserProfile, editUserEmail, editUserPassword } from "../../api";
 import { 
-  CollectionTemplateInfo,
-  CollectionInfo
+  CollectionHeader
 } from '../';
 
 const UserProfile = ({ userData, token }) => {
@@ -27,7 +26,7 @@ const UserProfile = ({ userData, token }) => {
     setUsersCollectionTemplates(usersCollectionTemplatesData);
 
     // collection templates
-    const usersCollectionsData = await getUsersCollections(token);
+    const usersCollectionsData = await getMyCollections(token);
     setUsersCollections(usersCollectionsData);
   }, []);
 
@@ -168,7 +167,7 @@ const UserProfile = ({ userData, token }) => {
       <h2>Your collection templates</h2>
 
       {usersCollectionTemplates?.map((collectionTemplate, index) => (
-        <CollectionTemplateInfo name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image} key={'collection-templates-'+index}></CollectionTemplateInfo>
+        <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image} key={'collection-templates-'+index}></CollectionHeader>
       ))}
 
       <br></br>
@@ -176,7 +175,7 @@ const UserProfile = ({ userData, token }) => {
       <h2>Your collections</h2>
 
       {usersCollections?.map((collection, index) => (
-        <CollectionInfo name={collection.name} description={collection.description} image={collection.image} key={'collection-'+index}></CollectionInfo>
+        <CollectionHeader name={collection.name} description={collection.description} image={collection.image} key={'collection-'+index}></CollectionHeader>
       ))}
 
       <br></br>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCollectionTemplateById } from '../../api';
 
-import { CardRow, CollectionTemplateInfo } from '..';
+import { CardRow, CollectionHeader } from '..';
 
 
 const CollectionTemplate = () => {
@@ -27,7 +27,7 @@ const CollectionTemplate = () => {
       collectionTemplate
       ?
       <div>
-        <CollectionTemplateInfo name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image}></CollectionTemplateInfo>
+        <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image}></CollectionHeader>
         {collectionTemplate.cards.length > 0
         ?
         <CardRow cards={collectionTemplate.cards}></CardRow>

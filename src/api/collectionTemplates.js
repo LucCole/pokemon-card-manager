@@ -17,6 +17,13 @@ export const getUsersCollectionTemplates = async (userId) => {
   return data;
 };
 
+export const getMyCollectionTemplates = async (token) => {
+  const data = await callApi({
+      url: `collection-templates/user`,
+      token
+  });
+  return data;
+};
 
 export const getAllCollectionTemplates = async () => {
   const data = await callApi({

@@ -6,12 +6,15 @@ import { getUser } from '../api';
 import { 
   CardRow, 
   Set, 
-  CollectionTemplate, 
-  CollectionTemplates, 
   Collection,
   UserForm, 
   UserProfile,
-  CollectionForm
+  MyCollectionTemplates,
+  UsersCollectionTemplates,
+  AllCollectionTemplates,
+  CollectionTemplate,
+  CollectionForm,
+  MyCollections
 } from './';
 
 
@@ -87,9 +90,17 @@ const App = () => {
       <Route path='/sets/id/:id' element={<Set />}/>
       <Route path='/' element={<CardRow cards={cards} />}/>
 
+      {/* Collections and Collection Templates */}
 
+      <Route path='/collection-templates' element={<AllCollectionTemplates />}/>
+      <Route path='/collection-templates/me' element={<MyCollectionTemplates userData={userData} token={token}/>}/>
+      <Route path='/collection-templates/user/:id' element={<UsersCollectionTemplates />}/>
+      <Route path='/collection-templates/id/:id' element={<CollectionTemplate />}/>
 
-      {/* Collection templates */}
+      <Route path='/collections/me' element={<MyCollections userData={userData} token={token}/>}/>
+      <Route path='/collections/id/:id' element={<Collection userData={userData} token={token}/>}/>
+
+      {/* !! */}
       <Route path='/collection-template-form' element={
         <CollectionForm 
           isTemplate={true} 
@@ -98,12 +109,7 @@ const App = () => {
           setUserData={setUserData} 
           userData={userData} token={token} 
         />}/>
-      <Route path='/collection-templates/id/:id' element={<CollectionTemplate />}/>
-      <Route path='/collection-templates' element={<CollectionTemplates />}/>
 
-
-      {/* Collections */}
-      <Route path='/collection/id/:id' element={<Collection userData={userData} token={token}/>}/>
     </Routes>
   </>
 }

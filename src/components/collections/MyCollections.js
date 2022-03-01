@@ -25,7 +25,13 @@ const MyCollections = ({ userData, token }) => {
       {usersCollections.length > 0
       ?
       usersCollections.map((collection, index) => (
-        <CollectionHeader name={collection.name} description={collection.description} image={collection.image} key={'collections-'+index}></CollectionHeader>
+        <CollectionHeader 
+          name={collection.name} 
+          id={collection.id}
+          description={collection.description} 
+          image={collection.image} 
+          key={'collections-'+index}
+        ></CollectionHeader>
       ))
     :
     'You have no collections'}

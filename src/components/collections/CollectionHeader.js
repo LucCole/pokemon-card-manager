@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -13,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CollectionHeader = ({name, description, image}) => {
+const CollectionHeader = ({name, id, description, image, creatorId=null, creatorName=null}) => {
 
   const classes = useStyles();
 
@@ -23,6 +24,8 @@ const CollectionHeader = ({name, description, image}) => {
       <div>
         <h3>{name}</h3>
         <p>{description}</p>
+        <h4><Link to={"/collection-templates/id/"+id}>View Collection</Link></h4>
+        <h4>{creatorId?<Link to={"/collection-templates/user/"+creatorId}>{creatorName}</Link>:null}</h4>
       </div>
     </div>
   );

@@ -128,8 +128,9 @@ async function getAllCollectionTemplates() {
   try {
 
     const {rows: collectionTemplates} = await client.query(`
-    SELECT *
-    FROM "collectionTemplates";
+    SELECT "collectionTemplates".*, users.username AS "creatorName"
+    FROM "collectionTemplates"
+    JOIN users ON users.id = "collectionTemplates"."creatorId";
     `);
 
     return collectionTemplates;

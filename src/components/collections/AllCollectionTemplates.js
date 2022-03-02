@@ -29,6 +29,7 @@ const AllCollectionTemplates = () => {
         image={collectionTemplate.image} 
         creatorId={collectionTemplate.creatorId} 
         creatorName={collectionTemplate.creatorName} 
+        isTemplate={true}
         key={'collection-templates-'+index}
       ></CollectionHeader>)
       )

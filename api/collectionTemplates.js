@@ -2,6 +2,9 @@
 const express = require('express');
 const collectionTemplatesRouter = express.Router();
 
+// to remove
+const { performance } = require('perf_hooks');
+
 const { 
   createCollectionTemplate,
   deleteCollectionTemplate,
@@ -12,7 +15,9 @@ const {
   canAccessCollectionTemplate,
   deleteAllCollectionTemplateCards,
   getAllUserCollectionTemplates,
-  getAllCardsForCollectionTemplate
+  getAllCardsForCollectionTemplate,
+  createCollectionCard,
+  createCollection
 } = require('../db');
 
 // POST /api/collection-templates
@@ -76,7 +81,9 @@ collectionTemplatesRouter.delete('/:id', async (req, res, next) => {
 
       if(canAccess){
         await deleteAllCollectionTemplateCards(collectionTemplateId);
+        
         const collectionTemplate = await deleteCollectionTemplate(collectionTemplateId);
+
         res.send(collectionTemplate);
       }else{
         next({
@@ -104,21 +111,43 @@ collectionTemplatesRouter.get('/id/:id', async (req, res, next) => {
         message: `No collection template found by ID ${collectionId}`
       })
     }else{
+      collectionTemplate.cards = await getAllCardsForCollectionTemplate(collectionTemplate.id);
+      res.send(collectionTemplate);
+    }
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+// !! FOR MY TEMPLATES (user)
+// GET /api/collection-templates/id/:id
+collectionTemplatesRouter.get('/me/id/:id', async (req, res, next) => {
+  try {
+
+    const collectionId = req.params.id;
+    const collectionTemplate = await getCollectionTemplateById(collectionId);
+
+    if(!collectionTemplate){
+      next({
+        name: 'NotFound',
+        message: `No collection template found by ID ${collectionId}`
+      })
+    }else{
 
       collectionTemplate.cards = await getAllCardsForCollectionTemplate(collectionTemplate.id);
 
-      // !! do we really need this?? -- removing it for now !!
+      const canAccess = await canAccessCollectionTemplate(collectionId, req.user.id);
 
-      //const canAccess = await canAccessCollectionTemplate(collectionId, req.user.id);
-
-      //if(canAccess){
+      if(canAccess){
         res.send(collectionTemplate);
-      // }else{
-      //   next({
-      //     name: 'CantAccess',
-      //     message: `You do not have access this collection template`
-      //   })
-      // }
+      }else{
+        next({
+          name: 'CantAccess',
+          message: `You do not have access this collection template`
+        })
+      }
     }
 
 
@@ -187,5 +216,58 @@ collectionTemplatesRouter.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
+
+
+
+
+
+
+
+
+// POST /api/collection-templates/into-collection/:id
+collectionTemplatesRouter.post('/into-collection/:id', async (req, res, next) => {
+  try {
+
+    const collectionId = req.params.id;
+    const collectionTemplate = await getCollectionTemplateById(collectionId);
+
+    if(!collectionTemplate){
+      next({
+        name: 'NotFound',
+        message: `No collection template found by ID ${collectionId}`
+      })
+    }else{
+
+      const collection = await createCollection({...collectionTemplate, userId : req.user.id});
+
+      collectionTemplate.cards = await getAllCardsForCollectionTemplate(collectionTemplate.id);
+      
+      collectionTemplate.cards.forEach(async (card) => {
+
+        console.log('---------- card');
+        console.log(card);
+
+        const temp = await createCollectionCard({
+          collectionId: collection.id, 
+          cardId: card.id, 
+          collected: false
+        });
+
+        console.log('temp', temp);
+      });
+
+      res.send(collection);
+    }
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+
+
 
 module.exports = collectionTemplatesRouter;

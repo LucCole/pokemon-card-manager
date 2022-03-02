@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
-import { createCollectionTemplate } from "../../api";
+
+import { createCollectionTemplate, createCollection, getMyCollectionTemplate, getCollectionById, editCollectionTemplate, editCollection } from "../../api";
 
 const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token }) => {
 
@@ -9,8 +10,9 @@ const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData,
     return (<h1>Please login to see this page</h1>);
   }
 
-  const navigate = useNavigate();
+  const { id } = useParams();
 
+  const [canAccess, setCanAccess] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
@@ -18,39 +20,106 @@ const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData,
   const [normalCards, setNormalCards] = useState('');
   const [secretCards, setSecretCards] = useState('');
 
+  useEffect(async () => {
+
+    if(!isCreate){
+
+      console.log()
+
+      let data;
+
+      if(isTemplate){
+        data = await getMyCollectionTemplate(id, token);
+      }else{
+        data = await getCollectionById(id, token);
+      }
+  
+      if(typeof data === 'object'){
+        setCanAccess(true);
+        setName(data.name);
+        setDescription(data.description);
+        setImage(data.image);
+        setNumberOfCards(data.numberOfCards);
+        setNormalCards(data.normalCards);
+        setSecretCards(data.secretCards);
+      }
+    }
+
+  }, [id]);
+
   const formSubmit = async (event) => {
     event.preventDefault();
 
     const requestInfo = {
-      body: {
+      token
+    }
+
+    let data = null;
+    
+    if(isCreate){
+
+      requestInfo.body = {
         name,
         description,
         image,
         numberOfCards,
         normalCards,
         secretCards,
-      },
-      token
-    }
+      }
 
-    let data = null;
+      if(isTemplate){
+        data = await createCollectionTemplate(requestInfo);
+      }else{
+        data = await createCollection(requestInfo);
+      }
 
-    if(isTemplate){
-      data = await createCollectionTemplate(requestInfo);
     }else{
-      // data = await createCollection(requestInfo);
-    }
 
-    // if(typeof data === 'object'){
-    //   localStorage.setItem( 'pokemon-card-manager-token', data.token );
-    //   setToken(data.token);
-    //   setUserData(data.user);
-    //   // ??
-    //   navigate('/users/profile');
-    // }else{
-    //   alert(data);
-    // }
+      requestInfo.id = id;
+      
+      // could I not just turn an object into an array? why go trhough all of this
+      requestInfo.body = {
+        columnsToUpdate: [
+          {
+            "column": "name",
+            "value": name
+          },
+          {
+            "column": "description",
+            "value": description
+          },
+          {
+            "column": "image",
+            "value": image
+          },
+          {
+            "column": "numberOfCards",
+            "value": numberOfCards
+          },
+          {
+            "column": "normalCards",
+            "value": normalCards
+          },
+          {
+            "column": "secretCards",
+            "value": secretCards
+          }
+        ]
+      }
+
+      if(isTemplate){
+        data = await editCollectionTemplate(requestInfo);
+      }else{
+        data = await editCollection(requestInfo);
+      }
+
+    }
+    console.log(data);
   };
+
+  if(!isCreate && !canAccess){
+    return 'You dont have access to edit this'
+  }
 
   return (
     <>

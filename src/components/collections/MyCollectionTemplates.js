@@ -32,6 +32,7 @@ const MyCollectionTemplates = ({ userData, token }) => {
           id={collectionTemplate.id}
           description={collectionTemplate.description} 
           image={collectionTemplate.image} 
+          isTemplate={true}
           key={'collection-templates-'+index}
         ></CollectionHeader>
       ))

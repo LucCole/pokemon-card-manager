@@ -167,7 +167,14 @@ const UserProfile = ({ userData, token }) => {
       <h2>Your collection templates</h2>
 
       {usersCollectionTemplates?.map((collectionTemplate, index) => (
-        <CollectionHeader name={collectionTemplate.name} description={collectionTemplate.description} image={collectionTemplate.image} key={'collection-templates-'+index}></CollectionHeader>
+        <CollectionHeader 
+          name={collectionTemplate.name} 
+          id={collectionTemplate.id}
+          description={collectionTemplate.description} 
+          image={collectionTemplate.image} 
+          isTemplate={true}
+          key={'collection-templates-'+index}
+        ></CollectionHeader>
       ))}
 
       <br></br>
@@ -175,7 +182,13 @@ const UserProfile = ({ userData, token }) => {
       <h2>Your collections</h2>
 
       {usersCollections?.map((collection, index) => (
-        <CollectionHeader name={collection.name} description={collection.description} image={collection.image} key={'collection-'+index}></CollectionHeader>
+        <CollectionHeader 
+          name={collection.name} 
+          id={collection.id}
+          description={collection.description} 
+          image={collection.image} 
+          key={'collection-'+index}
+        ></CollectionHeader>
       ))}
 
       <br></br>

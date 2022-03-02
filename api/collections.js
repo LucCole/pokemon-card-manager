@@ -40,8 +40,11 @@ collectionsRouter.patch('/:id', async (req, res, next) => {
 
       const canAccess = await canAccessCollection(collectionId, req.user.id);
 
+      console.log('canAccess: ', req.body);
+
       if(canAccess){
         const collection = await updateCollection({...req.body, id: req.params.id});
+        console.log('collection: ', collection);
         res.send(collection);
       }else{
         next({

@@ -92,23 +92,67 @@ const App = () => {
 
       {/* Collections and Collection Templates */}
 
+      {/* create collection templates */}
+
       <Route path='/collection-templates' element={<AllCollectionTemplates />}/>
       <Route path='/collection-templates/me' element={<MyCollectionTemplates userData={userData} token={token}/>}/>
       <Route path='/collection-templates/user/:id' element={<UsersCollectionTemplates />}/>
-      <Route path='/collection-templates/id/:id' element={<CollectionTemplate />}/>
+      <Route path='/collection-templates/id/:id' element={<CollectionTemplate userData={userData}  token={token}/>}/>
+      <Route path='/collection-templates/create' element={
+        <CollectionForm 
+          isTemplate={true} 
+          isCreate={true} 
+          token={token} 
+          setToken={setToken} 
+          userData={userData} 
+          setUserData={setUserData} 
+        />
+      }/>
+      <Route path='/collection-templates/edit/:id' element={
+        <CollectionForm 
+          isTemplate={true} 
+          isCreate={false} 
+          token={token} 
+          setToken={setToken} 
+          userData={userData} 
+          setUserData={setUserData} 
+        />
+      }/>
 
       <Route path='/collections/me' element={<MyCollections userData={userData} token={token}/>}/>
       <Route path='/collections/id/:id' element={<Collection userData={userData} token={token}/>}/>
+      <Route path='/collections/create' element={
+        <CollectionForm 
+          isTemplate={false} 
+          isCreate={true} 
+          token={token} 
+          setToken={setToken} 
+          userData={userData} 
+          setUserData={setUserData} 
+        />
+      }/>
+      <Route path='/collections/edit/:id' element={
+        <CollectionForm 
+          isTemplate={false} 
+          isCreate={false} 
+          token={token} 
+          setToken={setToken} 
+          userData={userData} 
+          setUserData={setUserData} 
+        />
+      }/>
+
+      {/* create collection */}
 
       {/* !! */}
-      <Route path='/collection-template-form' element={
+      {/* <Route path='/collection-template-form' element={
         <CollectionForm 
           isTemplate={true} 
           isCreate={true} 
           setToken={setToken} 
           setUserData={setUserData} 
           userData={userData} token={token} 
-        />}/>
+        />}/> */}
 
     </Routes>
   </>

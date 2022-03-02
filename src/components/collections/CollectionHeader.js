@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CollectionHeader = ({name, id, description, image, creatorId=null, creatorName=null}) => {
+const CollectionHeader = ({name, id, description, image, creatorId, creatorName, isTemplate}) => {
 
   const classes = useStyles();
 
@@ -24,8 +24,10 @@ const CollectionHeader = ({name, id, description, image, creatorId=null, creator
       <div>
         <h3>{name}</h3>
         <p>{description}</p>
-        <h4><Link to={"/collection-templates/id/"+id}>View Collection</Link></h4>
-        <h4>{creatorId?<Link to={"/collection-templates/user/"+creatorId}>{creatorName}</Link>:null}</h4>
+        {id?<h4><Link to={
+          `/${isTemplate?'collection-templates':'collections'}/id/${id}`
+        }>View Collection</Link></h4>:null}
+        {creatorId?<h4><Link to={`/collection-templates/user/${creatorId}`}>{creatorName}</Link></h4>:null}
       </div>
     </div>
   );

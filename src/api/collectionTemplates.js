@@ -65,3 +65,12 @@ export const getCollectionTemplateById = async (collectionTemplateId) => {
   });
   return data;
 };
+
+export const collectionTemplateIntoCollection = async (collectionTemplateId, token) => {
+  const data = await callApi({
+    method: 'POST',
+    url: `collection-templates/into-collection/${collectionTemplateId}`,
+    token
+  });
+  return data;
+}

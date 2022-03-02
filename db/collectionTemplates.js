@@ -5,6 +5,7 @@ const {
   getAllCardsForCollectionTemplate
 } = require('../db/collectionTemplatesCards.js');
 
+// O(2)
 async function createCollectionTemplate({ name, image, numberOfCards, normalCards, secretCards, description, creatorId }) {
   try {
 
@@ -12,14 +13,15 @@ async function createCollectionTemplate({ name, image, numberOfCards, normalCard
     INSERT INTO "collectionTemplates"(name, image, "numberOfCards", "normalCards", "secretCards", description, "creatorId") 
     VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
-    `, [ name, image, numberOfCards, normalCards, secretCards, description, creatorId ]);
+    `, [ name, image, numberOfCards, normalCards, secretCards, description, creatorId ]); // 1
 
-    return collectionTemplate;
+    return collectionTemplate; // 2
   } catch (error) {
     throw error;
   }
 }
 
+// O(2)
 async function deleteCollectionTemplate(id) {
   try {
 
@@ -27,14 +29,15 @@ async function deleteCollectionTemplate(id) {
     DELETE FROM "collectionTemplates"
     WHERE id=$1
     RETURNING id, name;
-    `, [id]);
+    `, [id]); // 1
 
-    return collectionTemplate;
+    return collectionTemplate; // 2
   } catch (error) {
     throw error;
   }
 }
 
+// O()
 async function updateCollectionTemplate({columnsToUpdate, id}) {
   try {
 
@@ -55,6 +58,7 @@ async function updateCollectionTemplate({columnsToUpdate, id}) {
         values.push(columnToUpdate.value);
         i++;
       }
+
     });
 
     values.push(id);
@@ -68,6 +72,9 @@ async function updateCollectionTemplate({columnsToUpdate, id}) {
       `, values);
       return collectionTemplate;
     }
+
+    
+
 
     return 'There are no columns to update.';
   } catch (error) {

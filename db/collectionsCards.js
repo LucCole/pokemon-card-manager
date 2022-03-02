@@ -4,6 +4,8 @@ const { client } = require('./client');
 async function createCollectionCard({ collectionId, cardId, collected }) {
   try {
 
+    console.log(collectionId, cardId, collected)
+
     const {rows: [collectionCard]} = await client.query(`
     INSERT INTO "collections_cards"("collectionId", "cardId", collected) 
     VALUES ($1, $2, $3)

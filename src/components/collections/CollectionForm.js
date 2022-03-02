@@ -58,17 +58,16 @@ const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData,
     
     if(isCreate){
 
+      requestInfo.body = {
+        name,
+        description,
+        image,
+        numberOfCards,
+        normalCards,
+        secretCards,
+      }
+
       if(isTemplate){
-
-        requestInfo.body = {
-          name,
-          description,
-          image,
-          numberOfCards,
-          normalCards,
-          secretCards,
-        },
-
         data = await createCollectionTemplate(requestInfo);
       }else{
         data = await createCollection(requestInfo);

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 
-import { getCollectionTemplateById, deleteCollectionTemplate } from '../../api';
+import { getCollectionTemplateById, deleteCollectionTemplate, collectionTemplateIntoCollection } from '../../api';
 
 import { CardRow, CollectionHeader } from '..';
 
 
 const CollectionTemplate = ({userData, token}) => {
+
+  const navigate = useNavigate();
 
   const [ collectionTemplate, setCollectionTemplate ] = useState(null);
 
@@ -24,12 +26,25 @@ const CollectionTemplate = ({userData, token}) => {
       }
   }, [id]);
 
+  const turnIntoCollectionHandler = async (collectionTemplateId) => {
+
+    const data = await collectionTemplateIntoCollection(collectionTemplateId, token)
+
+    if(typeof data === 'object'){
+      navigate('/collections/id/'+data.id);
+    }else{
+      alert(data);
+    }
+  };
+
   const deleteHandler = async (collectionTemplateId) => {
 
     const data = await deleteCollectionTemplate(collectionTemplateId, token);
 
     if(typeof data === 'object'){
       console.log('deleted');
+    }else{
+      alert(data);
     }
   };
 
@@ -44,6 +59,22 @@ const CollectionTemplate = ({userData, token}) => {
           description={collectionTemplate.description} 
           image={collectionTemplate.image}
         ></CollectionHeader>
+
+        {
+          "id" in userData
+          ?
+          <Button 
+            variant="contained"
+            onClick={() => {
+              turnIntoCollectionHandler(collectionTemplate.id);
+            }}
+          >
+            Make into collection
+          </Button>
+  
+          :
+          null
+        }
         {
           userData.id === collectionTemplate.id
           ?

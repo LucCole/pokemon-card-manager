@@ -170,7 +170,6 @@ async function getAllCollections() {
 // Should we return and error here?
 async function canAccessCollection(collectionId, userId) {
   try{
-    console.log('collectionId, userId: ', collectionId, userId)
 
     const {rows: [collection]} = await client.query(`
     SELECT * FROM collections

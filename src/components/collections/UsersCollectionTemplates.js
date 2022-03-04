@@ -6,7 +6,7 @@ import {
   CollectionHeader
 } from '../';
 
-const UsersCollectionTemplates = ({  }) => {
+const UsersCollectionTemplates = ({}) => {
 
   const { id } = useParams();
 
@@ -22,7 +22,7 @@ const UsersCollectionTemplates = ({  }) => {
 
   return (
     <>
-      <h2>My Collection Templates</h2>
+      <h2>Users Collection Templates</h2>
 
       {usersCollectionTemplates.length > 0
       ? 

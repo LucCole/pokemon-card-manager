@@ -68,11 +68,14 @@ try {
     image VARCHAR(500),
     set INTEGER REFERENCES sets(id),
     "numberInSet" INTEGER,
+
+    
+    "typeNormal" BOOLEAN,
+    "typeHollo" BOOLEAN,
+    "typeReverseHollo" BOOLEAN,
+    "typeFoil" BOOLEAN,
+
     rarity VARCHAR(100),
-    version VARCHAR(100),
-    "cardType" VARCHAR(100),
-    type VARCHAR(100),
-    "hitPoints" INTEGER,
     artist VARCHAR(100)
   );
   `);

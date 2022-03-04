@@ -70,10 +70,10 @@ async function populateInitialData() {
         set: 1,
         numberInSet: 56,
         rarity: 'Uncommon',
-        version: 'Normal',
-        cardType: 'Pokémon - Stage 1',
-        type: 'Water',
-        hitPoints: 90,
+        typeNormal: true, 
+        typeHollo: false, 
+        typeReverseHollo: false, 
+        typeFoil: false,
         artist: 'Naoki Saito'
       },
       { 
@@ -82,10 +82,10 @@ async function populateInitialData() {
         set: 2,
         numberInSet: 156,
         rarity: 'Rare Holo GX',
-        version: 'Hollo',
-        cardType: 'Pokémon - TAG TEAM',
-        type: 'Dragon',
-        hitPoints: 90,
+        typeNormal: true, 
+        typeHollo: false, 
+        typeReverseHollo: false, 
+        typeFoil: false,
         artist: 'Mitsuhiro Arita'
       },
       { 
@@ -94,11 +94,11 @@ async function populateInitialData() {
         set: 2,
         numberInSet: 171,
         rarity: 'Uncommon',
-        version: 'Normal',
-        cardType: 'Trainer - Item',
-        type: null,
-        hitPoints: null,
-        artist: '5ban Graphics',
+        typeNormal: true, 
+        typeHollo: false, 
+        typeReverseHollo: false, 
+        typeFoil: false,
+        artist: '5ban Graphics'
       },
       { 
         name: 'Ditto',
@@ -106,11 +106,11 @@ async function populateInitialData() {
         set: 3,
         numberInSet: 17,
         rarity: 'Rare',
-        version: 'Normal',
-        cardType: 'Pokémon',
-        type: 'Normal',
-        hitPoints: 40,
-        artist: null,
+        typeNormal: true, 
+        typeHollo: false, 
+        typeReverseHollo: false, 
+        typeFoil: false,
+        artist: null
       }
     ];
 

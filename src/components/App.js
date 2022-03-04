@@ -4,21 +4,20 @@ import { Route, Routes } from "react-router-dom";
 import { getUser } from '../api';
 
 import { 
-  CardRow, 
-  Set, 
-  Collection,
   UserForm, 
   UserProfile,
+  // Set, 
+  Collection,
   MyCollectionTemplates,
   UsersCollectionTemplates,
   AllCollectionTemplates,
   CollectionTemplate,
   CollectionForm,
-  MyCollections
+  MyCollections,
+  Card,
+  // CardSnippet
+  Cards
 } from './';
-
-
-
 
 const cards = [
   {
@@ -58,10 +57,7 @@ const cards = [
   },
 ];
 
-
 const App = () => {
-
-
 
   const [token, setToken] = useState('');
   const [userData, setUserData] = useState({});
@@ -76,23 +72,16 @@ const App = () => {
     setUserData(data);
   }, [token]);
 
-
-
   return <>
     <Routes>
 
       {/* Users */}
+
       <Route path='/register' element={<UserForm action='register' setToken={setToken} setUserData={setUserData}/>}/>
       <Route path='/login' element={<UserForm action='login' setToken={setToken} setUserData={setUserData}/>}/>
       <Route path='/users/profile' element={<UserProfile userData={userData} token={token}/>}/>
 
-
-      <Route path='/sets/id/:id' element={<Set />}/>
-      <Route path='/' element={<CardRow cards={cards} />}/>
-
       {/* Collections and Collection Templates */}
-
-      {/* create collection templates */}
 
       <Route path='/collection-templates' element={<AllCollectionTemplates />}/>
       <Route path='/collection-templates/me' element={<MyCollectionTemplates userData={userData} token={token}/>}/>
@@ -142,18 +131,11 @@ const App = () => {
         />
       }/>
 
-      {/* create collection */}
+      {/* Cards */}
 
-      {/* !! */}
-      {/* <Route path='/collection-template-form' element={
-        <CollectionForm 
-          isTemplate={true} 
-          isCreate={true} 
-          setToken={setToken} 
-          setUserData={setUserData} 
-          userData={userData} token={token} 
-        />}/> */}
-
+      <Route path='/cards' element={<Cards />}/>
+      <Route path='/cards/:id' element={<Card name={cards[0].name} series={cards[0].series} setNumber={cards[0].setNumber} cardsInSet={cards[0].cardsInSet} image={cards[0].image} />}/>
+      
     </Routes>
   </>
 }

@@ -1,21 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { CardSnippet } from '../';
+
+import { getAllCards } from '../../api';
+
 
 const useStyles = makeStyles(theme => ({
   cardRow: {
     display: "flex",
     overflow: "scroll",
-    margin: "2% 2%",
-    // "& > div:not(:last-child)": {
-    //   borderRight: "1px solid lightgrey"
-    // }
+    margin: "2% 2%"
   }
 }))
 
-const CardRow = ({cards}) => {
+const Cards = () => {
+
+  console.log('Hey --- hey');
 
   const classes = useStyles();
+
+  const [ cards, setCards ] = useState([]);
+
+  useEffect(async () => {
+    
+      const data = await getAllCards();
+
+      if(typeof data === 'object'){
+        console.log(data);
+        setCards(data);
+      }
+  }, []);
 
   return (
     <div className={classes.cardRow}>
@@ -28,4 +42,4 @@ const CardRow = ({cards}) => {
   );
 };
 
-export default CardRow;
+export default Cards;

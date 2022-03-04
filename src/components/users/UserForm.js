@@ -1,5 +1,3 @@
-// if they are logged in don't display this page. Send them to there user profile
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, TextField } from '@material-ui/core';

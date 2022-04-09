@@ -6,11 +6,15 @@ async function createCard({ name, image, set, numberInSet, rarity, typeNormal, t
   console.log('numberInSet: ', numberInSet);
   try {
 
+    //"typeNormal", "typeHollo", "typeReverseHollo", "typeFoil"
+
+    //typeNormal, typeHollo, typeReverseHollo, typeFoil
+
     const {rows: [card]} = await client.query(`
-    INSERT INTO cards(name, image, set, "numberInSet", rarity, "typeNormal", "typeHollo", "typeReverseHollo", "typeFoil", artist) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    INSERT INTO cards(name, image, set, "numberInSet", rarity, artist) 
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
-    `, [ name, image, set, numberInSet, rarity, typeNormal, typeHollo, typeReverseHollo, typeFoil, artist ]);
+    `, [ name, image, set, numberInSet, rarity, artist ]);
 
     return card;
   } catch (error) {
@@ -49,10 +53,10 @@ async function updateCard({columnsToUpdate, id}) {
         columnToUpdate.column === 'set' ||
         columnToUpdate.column === 'numberInSet' ||
         columnToUpdate.column === 'rarity' ||
-        columnToUpdate.column === 'typeNormal' ||
-        columnToUpdate.column === 'typeHollo' ||
-        columnToUpdate.column === 'typeReverseHollo' ||
-        columnToUpdate.column === 'typeFoil' ||
+        // columnToUpdate.column === 'typeNormal' ||
+        // columnToUpdate.column === 'typeHollo' ||
+        // columnToUpdate.column === 'typeReverseHollo' ||
+        // columnToUpdate.column === 'typeFoil' ||
         columnToUpdate.column === 'artist'
       ){
         columns.push(` "${columnToUpdate.column}"=$${i} `);

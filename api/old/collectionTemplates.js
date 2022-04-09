@@ -18,7 +18,7 @@ const {
   getAllCardsForCollectionTemplate,
   createCollectionCard,
   createCollection
-} = require('../db');
+} = require('../../db');
 
 // POST /api/collection-templates
 collectionTemplatesRouter.post('/', async (req, res, next) => {

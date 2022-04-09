@@ -4,8 +4,8 @@ module.exports = {
   ...require('./users'),
   ...require('./sets'),
   ...require('./cards'),
-  ...require('./collectionTemplates'),
-  ...require('./collectionTemplatesCards'),
+  // ...require('./old/collectionTemplates'),
+  // ...require('./collectionTemplatesCards'),
   ...require('./collections'),
   ...require('./collectionsCards'),
 }

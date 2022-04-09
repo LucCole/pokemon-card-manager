@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getUserProfile, getUsersCollectionTemplates, getMyCollections } from '../../api';
+// getUsersCollectionTemplates,
+import { getUserProfile, getMyCollections } from '../../api';
 // import { Button, TextField } from '@material-ui/core';
 // import { editUserProfile, editUserEmail, editUserPassword } from "../../api";
 import { 
@@ -13,7 +14,7 @@ const UserProfile = ({ userData, token }) => {
   }
 
   const [userProfile, setUserProfile] = useState({});
-  const [usersCollectionTemplates, setUsersCollectionTemplates] = useState([]);
+  // const [usersCollectionTemplates, setUsersCollectionTemplates] = useState([]);
   const [usersCollections, setUsersCollections] = useState([]);
 
   useEffect(async () => {
@@ -22,8 +23,8 @@ const UserProfile = ({ userData, token }) => {
     setUserProfile(userProfileData);
 
     // collection templates
-    const usersCollectionTemplatesData = await getUsersCollectionTemplates(userData.id);
-    setUsersCollectionTemplates(usersCollectionTemplatesData);
+    // const usersCollectionTemplatesData = await getUsersCollectionTemplates(userData.id);
+    // setUsersCollectionTemplates(usersCollectionTemplatesData);
 
     // collection templates
     const usersCollectionsData = await getMyCollections(token);
@@ -40,7 +41,7 @@ const UserProfile = ({ userData, token }) => {
       <h3>super admin: {userProfile.superAdmin?'true':'false'}</h3>
       <br></br>
 
-      <h2>Your collection templates</h2>
+      {/* <h2>Your collection templates</h2>
 
       {usersCollectionTemplates?.map((collectionTemplate, index) => (
         <CollectionHeader 
@@ -53,7 +54,7 @@ const UserProfile = ({ userData, token }) => {
         ></CollectionHeader>
       ))}
 
-      <br></br>
+      <br></br> */}
       
       <h2>Your collections</h2>
 

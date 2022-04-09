@@ -52,11 +52,11 @@ apiRouter.use('/sets', setsRouter);
 const cardsRouter = require('./cards');
 apiRouter.use('/cards', cardsRouter);
 
-const collectionTemplatesRouter = require('./collectionTemplates');
-apiRouter.use('/collection-templates', collectionTemplatesRouter);
+// const collectionTemplatesRouter = require('./collectionTemplates');
+// apiRouter.use('/collection-templates', collectionTemplatesRouter);
 
-const collectionTemplatesCardsRouter = require('./collectionTemplatesCards');
-apiRouter.use('/collection-templates-cards', collectionTemplatesCardsRouter);
+// const collectionTemplatesCardsRouter = require('./collectionTemplatesCards');
+// apiRouter.use('/collection-templates-cards', collectionTemplatesCardsRouter);
 
 const collectionsRouter = require('./collections');
 apiRouter.use('/collections', collectionsRouter);

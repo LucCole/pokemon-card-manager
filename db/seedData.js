@@ -70,10 +70,10 @@ async function populateInitialData() {
         set: 1,
         numberInSet: 56,
         rarity: 'Uncommon',
-        typeNormal: true, 
-        typeHollo: false, 
-        typeReverseHollo: false, 
-        typeFoil: false,
+        // typeNormal: true, 
+        // typeHollo: false, 
+        // typeReverseHollo: false, 
+        // typeFoil: false,
         artist: 'Naoki Saito'
       },
       { 
@@ -82,10 +82,10 @@ async function populateInitialData() {
         set: 2,
         numberInSet: 156,
         rarity: 'Rare Holo GX',
-        typeNormal: true, 
-        typeHollo: false, 
-        typeReverseHollo: false, 
-        typeFoil: false,
+        // typeNormal: true, 
+        // typeHollo: false, 
+        // typeReverseHollo: false, 
+        // typeFoil: false,
         artist: 'Mitsuhiro Arita'
       },
       { 
@@ -94,10 +94,10 @@ async function populateInitialData() {
         set: 2,
         numberInSet: 171,
         rarity: 'Uncommon',
-        typeNormal: true, 
-        typeHollo: false, 
-        typeReverseHollo: false, 
-        typeFoil: false,
+        // typeNormal: true, 
+        // typeHollo: false, 
+        // typeReverseHollo: false, 
+        // typeFoil: false,
         artist: '5ban Graphics'
       },
       { 
@@ -106,10 +106,10 @@ async function populateInitialData() {
         set: 3,
         numberInSet: 17,
         rarity: 'Rare',
-        typeNormal: true, 
-        typeHollo: false, 
-        typeReverseHollo: false, 
-        typeFoil: false,
+        // typeNormal: true, 
+        // typeHollo: false, 
+        // typeReverseHollo: false, 
+        // typeFoil: false,
         artist: null
       }
     ];
@@ -119,53 +119,53 @@ async function populateInitialData() {
     console.log(cards);
 
     // Collection Templates
-    console.log('Creating collection templates');
-    const collectionTemplatesToCreate = [
-      { 
-        name: 'Charmanders!', 
-        image: 'https://archives.bulbagarden.net/media/upload/7/73/004Charmander.png',
-        numberOfCards: 10,
-        normalCards: 8,
-        secretCards: 2,
-        description: 'A charmander collection!',
-        creatorId: 1
-      },
+    // console.log('Creating collection templates');
+    // const collectionTemplatesToCreate = [
+    //   { 
+    //     name: 'Charmanders!', 
+    //     image: 'https://archives.bulbagarden.net/media/upload/7/73/004Charmander.png',
+    //     numberOfCards: 10,
+    //     normalCards: 8,
+    //     secretCards: 2,
+    //     description: 'A charmander collection!',
+    //     creatorId: 1
+    //   },
       
-      { 
-        name: 'Gen 1 pokemon', 
-        image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',
-        numberOfCards: 150,
-        normalCards: 150,
-        secretCards: 0,
-        description: 'All Gen 1 pokemon, no hollos or secret rares',
-        creatorId: 2
-      },
-    ];
+    //   { 
+    //     name: 'Gen 1 pokemon', 
+    //     image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',
+    //     numberOfCards: 150,
+    //     normalCards: 150,
+    //     secretCards: 0,
+    //     description: 'All Gen 1 pokemon, no hollos or secret rares',
+    //     creatorId: 2
+    //   },
+    // ];
 
-    const collectionTemplates = await Promise.all(collectionTemplatesToCreate.map(createCollectionTemplate));
-    console.log('Finished creating collection templates!');
-    console.log(collectionTemplates);
+    // const collectionTemplates = await Promise.all(collectionTemplatesToCreate.map(createCollectionTemplate));
+    // console.log('Finished creating collection templates!');
+    // console.log(collectionTemplates);
 
     // Collection Templates Cards
-    console.log('Creating collection templates cards');
-    const collectionTemplatesCardsToCreate = [
-      { 
-        "collectionTemplateId": 1,
-        "cardId": 1
-      },
-      { 
-        "collectionTemplateId": 1,
-        "cardId": 2
-      },
-      { 
-        "collectionTemplateId": 2,
-        "cardId": 3
-      },
-    ];
+    // console.log('Creating collection templates cards');
+    // const collectionTemplatesCardsToCreate = [
+    //   { 
+    //     "collectionTemplateId": 1,
+    //     "cardId": 1
+    //   },
+    //   { 
+    //     "collectionTemplateId": 1,
+    //     "cardId": 2
+    //   },
+    //   { 
+    //     "collectionTemplateId": 2,
+    //     "cardId": 3
+    //   },
+    // ];
 
-    const collectionTemplatesCards = await Promise.all(collectionTemplatesCardsToCreate.map(createCollectionTemplateCard));
-    console.log('Finished creating collection templates Cards!');
-    console.log(collectionTemplatesCards);
+    // const collectionTemplatesCards = await Promise.all(collectionTemplatesCardsToCreate.map(createCollectionTemplateCard));
+    // console.log('Finished creating collection templates Cards!');
+    // console.log(collectionTemplatesCards);
 
     // Collections
     console.log('Creating collections');

@@ -3,9 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 
-import { getCollectionTemplateById, deleteCollectionTemplate, collectionTemplateIntoCollection } from '../../api';
+import { getCollectionTemplateById, deleteCollectionTemplate, collectionTemplateIntoCollection } from '../../../api';
 
-import { CardRow, CollectionHeader } from '..';
+import { CardRow, CollectionHeader } from '../..';
 
 
 const CollectionTemplate = ({userData, token}) => {

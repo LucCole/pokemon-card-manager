@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from '@material-ui/core';
-import { createCollectionTemplate } from "../../api";
+import { createCollectionTemplate } from "../../../api";
 
 const TemplateIntoCollectionButton = ({ collectionTemplateId }) => {
 

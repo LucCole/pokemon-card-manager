@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getAllCollectionTemplates } from '../../api';
+import { getAllCollectionTemplates } from '../../../api';
 
-import { CollectionHeader } from '..';
+import { CollectionHeader } from '../..';
 
 const AllCollectionTemplates = () => {
 

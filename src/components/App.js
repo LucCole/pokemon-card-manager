@@ -8,10 +8,10 @@ import {
   UserProfile,
   // Set, 
   Collection,
-  MyCollectionTemplates,
-  UsersCollectionTemplates,
-  AllCollectionTemplates,
-  CollectionTemplate,
+  // MyCollectionTemplates,
+  // UsersCollectionTemplates,
+  // AllCollectionTemplates,
+  // CollectionTemplate,
   CollectionForm,
   MyCollections,
   Card,
@@ -84,7 +84,7 @@ const App = () => {
 
       {/* Collections and Collection Templates */}
 
-      <Route path='/collection-templates' element={<AllCollectionTemplates />}/>
+      {/* <Route path='/collection-templates' element={<AllCollectionTemplates />}/>
       <Route path='/collection-templates/me' element={<MyCollectionTemplates userData={userData} token={token}/>}/>
       <Route path='/collection-templates/user/:id' element={<UsersCollectionTemplates />}/>
       <Route path='/collection-templates/id/:id' element={<CollectionTemplate userData={userData}  token={token}/>}/>
@@ -107,7 +107,7 @@ const App = () => {
           userData={userData} 
           setUserData={setUserData} 
         />
-      }/>
+      }/> */}
 
       <Route path='/collections/me' element={<MyCollections userData={userData} token={token}/>}/>
       <Route path='/collections/id/:id' element={<Collection userData={userData} token={token}/>}/>

@@ -15,6 +15,7 @@ import {
   CollectionForm,
   MyCollections,
   Card,
+  CardForm,
   // CardSnippet
   Cards
 } from './';
@@ -133,9 +134,37 @@ const App = () => {
 
       {/* Cards */}
 
+      {/* 
+      
+        TODO
+
+        - veiw card 
+        
+        - create card √
+        - edit card √
+        - delete card
+        
+        - Add card to collection
+        - Remove card from collection
+        - Add card to collection template
+        - Remove card from collection template
+
+      */}
+
       <Route path='/cards' element={<Cards />}/>
       <Route path='/cards/:id' element={<Card name={cards[0].name} series={cards[0].series} setNumber={cards[0].setNumber} cardsInSet={cards[0].cardsInSet} image={cards[0].image} />}/>
+      <Route path='/cards/create' element={<CardForm isCreate={true} userData={userData} token={token} />}/>
+      <Route path='/cards/edit/:id' element={<CardForm isCreate={false} userData={userData} token={token} />}/>
+
       
+
+
+
+
+
+
+
+
     </Routes>
   </>
 }

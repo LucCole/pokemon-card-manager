@@ -1,121 +1,142 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, FormControl, InputLabel, Select, MenuItem, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { createCollectionTemplate, createCollection, getMyCollectionTemplate, getCollectionById, editCollectionTemplate, editCollection } from "../../api";
 
-const CardForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token }) => {
+import { createCard, editCard, getCard } from "../../api";
 
-  // if(!userData.id){
-  //   return (<h1>Please login to see this page</h1>);
-  // }
 
-  // const { id } = useParams();
+const useStyles = makeStyles(theme => ({
+  form: {
+    display: "flex",
+    flexDirection: "column"
+  }
+}))
 
-  // const [canAccess, setCanAccess] = useState(false);
-  // const [name, setName] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [image, setImage] = useState('');
-  // const [numberOfCards, setNumberOfCards] = useState('');
-  // const [normalCards, setNormalCards] = useState('');
-  // const [secretCards, setSecretCards] = useState('');
 
-  // useEffect(async () => {
+const CardForm = ({ isCreate, userData, token }) => {
 
-  //   if(!isCreate){
+  if(!userData.id){
+    return (<h1>Please login to see this page</h1>);
+  }
 
-  //     console.log()
+  const { id } = useParams();
 
-  //     let data;
+  const classes = useStyles();
 
-  //     if(isTemplate){
-  //       data = await getMyCollectionTemplate(id, token);
-  //     }else{
-  //       data = await getCollectionById(id, token);
-  //     }
-  
-  //     if(typeof data === 'object'){
-  //       setCanAccess(true);
-  //       setName(data.name);
-  //       setDescription(data.description);
-  //       setImage(data.image);
-  //       setNumberOfCards(data.numberOfCards);
-  //       setNormalCards(data.normalCards);
-  //       setSecretCards(data.secretCards);
-  //     }
-  //   }
+  const [name, setName] = useState('');
+  const [image, setImage] = useState('');
+  const [rarity, setRarity] = useState('Common');
+  const [numberInSet, setNumberInSet] = useState(1);
+  const [typeNormal, setTypeNormal] = useState('True');
+  const [typeHollo, setTypeHollo] = useState('False');
+  const [typeReverseHollo, setTypeReverseHollo] = useState('False');
+  const [typeFoil, setTypeFoil] = useState('False');
+  const [artist, setArtist] = useState('');
 
-  // }, [id]);
+  useEffect(async () => {
 
-  // const formSubmit = async (event) => {
-  //   event.preventDefault();
+    if(!isCreate){
 
-  //   const requestInfo = {
-  //     token
-  //   }
+      const data = await getCard(id, token);
+     
+      if(typeof data === 'object'){
+        setName(data.name);
+        setImage(data.image);
+        setRarity(data.rarity);
+        setNumberInSet(data.numberInSet);
+        setTypeNormal(data.typeNormal === true ? 'True' : 'False');
+        setTypeHollo(data.typeHollo === true ? 'True' : 'False');
+        setTypeReverseHollo(data.typeReverseHollo === true ? 'True' : 'False');
+        setTypeFoil(data.typeFoil === true ? 'True' : 'False');
+        setArtist(data.artist);
+      }
+    }
 
-  //   let data = null;
+  }, [id]);
+
+  const formSubmit = async (event) => {
+    event.preventDefault();
+
+    const requestInfo = {
+      token
+    }
+
+    let data = null;
     
-  //   if(isCreate){
+    if(isCreate){
 
-  //     requestInfo.body = {
-  //       name,
-  //       description,
-  //       image,
-  //       numberOfCards,
-  //       normalCards,
-  //       secretCards,
-  //     }
+      requestInfo.body = {
+        name,
+        image,
+        rarity,
+        numberInSet,
+        typeNormal,
+        typeHollo,
+        typeReverseHollo,
+        typeFoil,
+        artist,
+        set: 1
+      }
 
-  //     if(isTemplate){
-  //       data = await createCollectionTemplate(requestInfo);
-  //     }else{
-  //       data = await createCollection(requestInfo);
-  //     }
+      data = await createCard(requestInfo);
 
-  //   }else{
+    }else{
 
-  //     requestInfo.id = id;
+      requestInfo.id = id;
       
-  //     // could I not just turn an object into an array? why go trhough all of this
-  //     requestInfo.body = {
-  //       columnsToUpdate: [
-  //         {
-  //           "column": "name",
-  //           "value": name
-  //         },
-  //         {
-  //           "column": "description",
-  //           "value": description
-  //         },
-  //         {
-  //           "column": "image",
-  //           "value": image
-  //         },
-  //         {
-  //           "column": "numberOfCards",
-  //           "value": numberOfCards
-  //         },
-  //         {
-  //           "column": "normalCards",
-  //           "value": normalCards
-  //         },
-  //         {
-  //           "column": "secretCards",
-  //           "value": secretCards
-  //         }
-  //       ]
-  //     }
+      // could I not just turn an object into an array? why go trhough all of this
+      requestInfo.body = {
+        columnsToUpdate: [
+          {
+            "column": "name",
+            "value": name
+          },
+          {
+            "column": "image",
+            "value": image
+          },
+          {
+            "column": "rarity",
+            "value": rarity
+          },
+          {
+            "column": "numberInSet",
+            "value": numberInSet
+          },
+          {
+            "column": "typeNormal",
+            "value": typeNormal
+          },
+          {
+            "column": "typeHollo",
+            "value": typeHollo
+          },
+          {
+            "column": "typeReverseHollo",
+            "value": typeReverseHollo
+          },
+          {
+            "column": "typeFoil",
+            "value": typeFoil
+          },
+          {
+            "column": "artist",
+            "value": artist
+          },
+          {
+            "column": "set",
+            "value": 2
+          }
+        ]
+      }
+      
+      data = await editCard(requestInfo);
 
-  //     if(isTemplate){
-  //       data = await editCollectionTemplate(requestInfo);
-  //     }else{
-  //       data = await editCollection(requestInfo);
-  //     }
-
-  //   }
-  //   console.log(data);
-  // };
+    }
+    console.log(data);
+  };
 
   // if(!isCreate && !canAccess){
   //   return 'You dont have access to edit this'
@@ -123,53 +144,142 @@ const CardForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token
 
   return (
     <>
-    hey
-      {/* <form onSubmit={formSubmit}>
+      <form className={classes.form} onSubmit={formSubmit}>
 
-        <h2 id="registerhead">Welcome, please {isCreate?'create':'edit'} {isTemplate?'collection template':'collection'}</h2>
-
+        {/* Name */}
         <TextField 
           type="text" 
-          label="Collection Name" 
+          label="Name" 
           required
           minLength="3"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
 
-        <TextField 
-          type="text" 
-          label="Description" 
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        />
-
+        {/* Image */}
         <TextField 
           type="text" 
           label="Image" 
+          required
+          minLength="3"
           value={image}
           onChange={(event) => setImage(event.target.value)}
         />
 
+        {/* Rarity */}
+        <FormControl fullWidth>
+          <InputLabel id="rarity-select-label">Rarity</InputLabel>
+          <Select
+            labelId="rarity-select-label"
+            id="rarity-select"
+            value={rarity}
+            label="Rarity"
+            onChange={(event) => setRarity(event.target.value)}
+          >
+            <MenuItem value="Common">Common</MenuItem>
+            <MenuItem value="Uncommon">Uncommon</MenuItem>
+            <MenuItem value="Rare">Rare</MenuItem>
+            <MenuItem value="Ultra Rare">Ultra Rare</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* set - select
+        <FormControl fullWidth>
+          <InputLabel id="rarity-select-label">Rarity</InputLabel>
+          <Select
+            labelId="rarity-select-label"
+            id="rarity-select"
+            value={rarity}
+            label="Rarity"
+            onChange={(event) => setRarity(event.target.value)}
+          >
+            <MenuItem value="">Common</MenuItem>
+            <MenuItem value="">Uncommon</MenuItem>
+            <MenuItem value="">Rare</MenuItem>
+            <MenuItem value="">Ultra Rare</MenuItem>
+          </Select>
+        </FormControl> */}
+
+        {/* Number in set */}
         <TextField 
-          type="text" 
-          label="Number Of Cards"
-          value={numberOfCards}
-          onChange={(event) => setNumberOfCards(event.target.value)}
+          type="number" 
+          label="Number in set" 
+          required
+          minLength="3"
+          value={numberInSet}
+          onChange={(event) => setNumberInSet(event.target.value)}
         />
 
-        <TextField 
-          type="text" 
-          label="normalCards"
-          value={normalCards}
-          onChange={(event) => setNormalCards(event.target.value)}
-        />
+        Card types
 
+        {/* Normal */}
+        <FormControl>
+          <FormLabel id="normal-radio-label">Normal</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="normal-radio-label"
+            value={typeNormal}
+            name="normal-radio-group"
+            onChange={(event) => setTypeNormal(event.target.value)}
+          >
+            <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
+            <FormControlLabel value='False'control={<Radio />} label="False" />
+          </RadioGroup>
+        </FormControl>
+
+        {/* Hollo */}
+        <FormControl>
+          <FormLabel id="hollo-radio-label">Hollo</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="hollo-radio-label"
+            value={typeHollo}
+            name="hollo-radio-group"
+            onChange={(event) => setTypeHollo(event.target.value)}
+          >
+            <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
+            <FormControlLabel value='False' control={<Radio />} label="False" />
+          </RadioGroup>
+        </FormControl>
+
+        {/* Reverse Hollo */}
+        <FormControl>
+          <FormLabel id="reverse-hollo-radio-label">Reverse Hollo</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="reverse-hollo-radio-label"
+            value={typeReverseHollo}
+            name="reverse-hollo-radio-group"
+            onChange={(event) => setTypeReverseHollo(event.target.value)}
+          >
+            <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
+            <FormControlLabel value='False' control={<Radio />} label="False" />
+          </RadioGroup>
+        </FormControl>
+        
+        {/* Foil */}
+        <FormControl>
+          <FormLabel id="foil-radio-label">Foil</FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="foil-radio-label"
+            value={typeFoil}
+            name="foil-radio-group"
+            onChange={(event) => setTypeFoil(event.target.value)}
+          >
+            <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
+            <FormControlLabel value='False' control={<Radio />} label="False" />
+          </RadioGroup>
+        </FormControl>
+
+        {/* Artist */}
         <TextField 
           type="text" 
-          label="Secret Cards" 
-          value={secretCards}
-          onChange={(event) => setSecretCards(event.target.value)}
+          label="Artist" 
+          required
+          minLength="3"
+          value={artist}
+          onChange={(event) => setArtist(event.target.value)}
         />
 
         <Button 
@@ -177,7 +287,7 @@ const CardForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token
           type="submit">
           {isCreate?'Create':'Update'}
         </Button>
-      </form> */}
+      </form>
     </>
   );
 };

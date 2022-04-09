@@ -22,3 +22,4 @@ export { default as Card } from './cards/Card';
 export { default as Cards } from './cards/Cards';
 export { default as CardSnippet } from './cards/CardSnippet';
 export { default as CardRow } from './cards/CardRow';
+export { default as CardForm } from './cards/CardForm';

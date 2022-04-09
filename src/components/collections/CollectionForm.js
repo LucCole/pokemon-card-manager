@@ -24,8 +24,6 @@ const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData,
 
     if(!isCreate){
 
-      console.log()
-
       let data;
 
       if(isTemplate){

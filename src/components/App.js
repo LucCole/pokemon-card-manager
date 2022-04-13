@@ -6,7 +6,8 @@ import { getUser } from '../api';
 import { 
   UserForm, 
   UserProfile,
-  // Set, 
+  Set, 
+  Sets,
   Collection,
   // MyCollectionTemplates,
   // UsersCollectionTemplates,
@@ -20,43 +21,43 @@ import {
   Cards
 } from './';
 
-const cards = [
-  {
-    name: 'Pikachu',
-    series: 'XY Generations',
-    setNumber: 26,
-    cardsInSet: 115,
-    image: 'https://images.pokemontcg.io/g1/26_hires.png'
-  },
-  {
-    name: 'Drizzile',
-    series: 'XY Generations',
-    setNumber: 56,
-    cardsInSet: 115,
-    image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645076.jpg'
-  },
-  {
-    name: 'Arceus & Dialga & Palkia GX',
-    series: 'XY Generations',
-    setNumber: 26,
-    cardsInSet: 156,
-    image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1605919.jpg'
-  },
-  {
-    name: 'Ordinary Rod',
-    series: 'XY Generations',
-    setNumber: 26,
-    cardsInSet: 171,
-    image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645191.jpg'
-  },
-  {
-    name: 'Ditto',
-    series: 'XY Generations',
-    setNumber: 26,
-    cardsInSet: 17,
-    image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/302988.jpg'
-  },
-];
+// const cards = [
+//   {
+//     name: 'Pikachu',
+//     series: 'XY Generations',
+//     setNumber: 26,
+//     cardsInSet: 115,
+//     image: 'https://images.pokemontcg.io/g1/26_hires.png'
+//   },
+//   {
+//     name: 'Drizzile',
+//     series: 'XY Generations',
+//     setNumber: 56,
+//     cardsInSet: 115,
+//     image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645076.jpg'
+//   },
+//   {
+//     name: 'Arceus & Dialga & Palkia GX',
+//     series: 'XY Generations',
+//     setNumber: 26,
+//     cardsInSet: 156,
+//     image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1605919.jpg'
+//   },
+//   {
+//     name: 'Ordinary Rod',
+//     series: 'XY Generations',
+//     setNumber: 26,
+//     cardsInSet: 171,
+//     image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1645191.jpg'
+//   },
+//   {
+//     name: 'Ditto',
+//     series: 'XY Generations',
+//     setNumber: 26,
+//     cardsInSet: 17,
+//     image: 'https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/302988.jpg'
+//   },
+// ];
 
 const App = () => {
 
@@ -81,6 +82,15 @@ const App = () => {
       <Route path='/register' element={<UserForm action='register' setToken={setToken} setUserData={setUserData}/>}/>
       <Route path='/login' element={<UserForm action='login' setToken={setToken} setUserData={setUserData}/>}/>
       <Route path='/users/profile' element={<UserProfile userData={userData} token={token}/>}/>
+
+
+
+
+      {/* Sets */}
+      {/* <Route path='/sets' element={<UserForm action='register' setToken={setToken} setUserData={setUserData}/>}/> */}
+      <Route path='/sets' element={<Sets />}/>
+      <Route path='/sets/:id' element={<Set />}/>
+
 
       {/* Collections and Collection Templates */}
 
@@ -152,7 +162,8 @@ const App = () => {
       */}
 
       <Route path='/cards' element={<Cards />}/>
-      <Route path='/cards/:id' element={<Card name={cards[0].name} series={cards[0].series} setNumber={cards[0].setNumber} cardsInSet={cards[0].cardsInSet} image={cards[0].image} />}/>
+      {/* name={cards[0].name} series={cards[0].series} setNumber={cards[0].setNumber} cardsInSet={cards[0].cardsInSet} image={cards[0].image} */}
+      <Route path='/cards/:id' element={<Card />}/>
       <Route path='/cards/create' element={<CardForm isCreate={true} userData={userData} token={token} />}/>
       <Route path='/cards/edit/:id' element={<CardForm isCreate={false} userData={userData} token={token} />}/>
 

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CardSnippet } from '../';
 
@@ -16,31 +17,41 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CardRow = () => {
+const Card = () => {
+
+  console.log('Card component');
   
   const { id } = useParams();
 
-  const [ card, setCard ] = useState(null);
+  console.log('id: ', id);
+
+  const [ card, setCard ] = useState({});
+
+  console.log('card: ', card);
 
   
   useEffect(async () => {
 
-    if(!isCreate){
+    console.log('Before call');
 
-      const data = await getCard(id, token);
+    // if(!isCreate){
+
+      const data = await getCard(id);
+
+      console.log('data: ', data);
      
       if(typeof data === 'object'){
         setCard(data);
       }
-    }
+    // }
 
   }, [id]);
 
   const classes = useStyles();
 
   return (
-    <CardSnippet name={name} series={series} setNumber={setNumber} cardsInSet={cardsInSet} image={image}></CardSnippet>
+    <CardSnippet name={card.name} number={card.number} setCards={card.setCards} image={card.image}></CardSnippet>
   );
 };
 
-export default CardRow;
+export default Card;

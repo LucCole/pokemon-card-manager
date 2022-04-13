@@ -45,7 +45,9 @@ cardsRouter.patch('/:id', async (req, res, next) => {
 // GET /api/cards/id/:id
 cardsRouter.get('/id/:id', async (req, res, next) => {
   try {
+    console.log('before card')
     const card = await getCardById(req.params.id);
+    console.log('After card');
     if(typeof card === 'object'){
       res.send(card);
     }else{

@@ -1,15 +1,24 @@
 
 const { client } = require('./client');
 
+
+const { 
+  getCardsBySet
+} = require('../db/cards.js');
+
+
+//series, 
 // admin and super admin only
-async function createSet({ name, series, logo, numberOfCards, normalCards, secretCards }) {
+async function createSet({ name, logo, icon, releaseDate, cards, normalCards, secretCards }) {
   try {
 
+    //series, 
+    //series, 
     const {rows: [set]} = await client.query(`
-    INSERT INTO sets(name, series, logo, "numberOfCards", "normalCards", "secretCards") 
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO sets(name, logo, icon, "releaseDate", cards, "normalCards", "secretCards") 
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
-    `, [name, series, logo, numberOfCards, normalCards, secretCards ]);
+    `, [name, logo, icon, releaseDate, cards, normalCards, secretCards ]);
 
     return set;
   } catch (error) {
@@ -40,13 +49,14 @@ async function updateSet({columnsToUpdate, id}) {
     const columns = [];
     const values = [];
     let i = 1;
-
+    // columnToUpdate.column === 'series' ||
     columnsToUpdate.forEach((columnToUpdate) => {
       if(
         columnToUpdate.column === 'name' ||
-        columnToUpdate.column === 'series' ||
         columnToUpdate.column === 'logo' ||
-        columnToUpdate.column === 'numberOfCards' ||
+        columnToUpdate.column === 'icon' ||
+        columnToUpdate.column === 'logo' ||
+        columnToUpdate.column === 'releaseDate' ||
         columnToUpdate.column === 'normalCards' ||
         columnToUpdate.column === 'secretCards'
       ){
@@ -80,14 +90,16 @@ async function updateSet({columnsToUpdate, id}) {
 // should I pass in a bool? That migh be the easiest way. Default to false.
 
 // anyone
-async function getSetyById(id) {
+async function getSetById(id) {
   try {
 
     const {rows: [set]} = await client.query(`
-    SELECT *
+    SELECT sets.*
     FROM sets
-    WHERE id=$1;
+    WHERE sets.id=$1;
     `, [id]);
+    
+    set.cardList = await getCardsBySet(id);
 
     return set;
   } catch (error) {
@@ -126,42 +138,58 @@ async function getAllSets() {
   }
 }
 
-// anyone
-async function getSetsBySeries(series) {
+
+
+async function getAllSetsSnippet() {
   try {
 
-    const whereArr = [];
+    const {rows: sets} = await client.query(`
+    SELECT id, name
+    FROM sets;
+    `);
 
-    series.forEach((series, index) => {
-      whereArr.push(` series=$${index+1} `);
-    });
-
-    if(whereArr.length > 0){
-
-      const where = whereArr.join('OR');
-
-      const {rows: sets} = await client.query(`
-      SELECT *
-      FROM sets
-      WHERE ${where};
-      `, series);
-
-      return sets;
-    }
-
-    return 'There are no series to search for.';
-
+    return sets;
   } catch (error) {
     throw error;
   }
 }
 
+// anyone
+// async function getSetsBySeries(series) {
+//   try {
+
+//     const whereArr = [];
+
+//     series.forEach((series, index) => {
+//       whereArr.push(` series=$${index+1} `);
+//     });
+
+//     if(whereArr.length > 0){
+
+//       const where = whereArr.join('OR');
+
+//       const {rows: sets} = await client.query(`
+//       SELECT *
+//       FROM sets
+//       WHERE ${where};
+//       `, series);
+
+//       return sets;
+//     }
+
+//     return 'There are no series to search for.';
+
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 module.exports = {
   createSet,
   deleteSet,
   updateSet,
-  getSetyById,
+  getSetById,
   getSetByName,
-  getAllSets,
-  getSetsBySeries
+  getAllSets
+  // getSetsBySeries
 }

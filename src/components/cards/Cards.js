@@ -21,6 +21,8 @@ const Cards = () => {
 
   const [ cards, setCards ] = useState([]);
 
+  console.log('cards: ', cards);
+
   useEffect(async () => {
     
       const data = await getAllCards();
@@ -35,7 +37,7 @@ const Cards = () => {
     <div className={classes.cardRow}>
       
       {cards?.map((card, index) => (
-        <CardSnippet name={card.name} series={card.series} setNumber={card.setNumber} cardsInSet={card.cardsInSet} image={card.image} key={'card-'+index}></CardSnippet>
+        <CardSnippet name={card.name} series={card.series} number={card.number} setCards={card.setCards} image={card.image} key={'card-'+index}></CardSnippet>
       ))}
 
     </div>

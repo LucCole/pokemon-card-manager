@@ -2,19 +2,21 @@
 const { client } = require('./client');
 
 const { 
-  getAllCardsForCollection
+  getAllCardsForCollection,
 } = require('../db/collectionsCards.js');
 
-async function createCollection({ name, image, numberOfCards, normalCards, secretCards, description, userId }) {
-  console.log('userId: ', userId);
+
+const { 
+  getCardsBySet
+} = require('../db/cards.js');
+
+async function createCollection({ set, userId }) {
   try {
-
     const {rows: [collection]} = await client.query(`
-    INSERT INTO collections(name, image, "numberOfCards", "normalCards", "secretCards", description, "userId") 
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO collections(set, "userId") 
+    VALUES ($1, $2)
     RETURNING *;
-    `, [ name, image, numberOfCards, normalCards, secretCards, description, userId ]);
-
+    `, [ set, userId]);
     return collection;
   } catch (error) {
     throw error;
@@ -27,7 +29,7 @@ async function deleteCollection(id) {
     const {rows: [collection]} = await client.query(`
     DELETE FROM collections
     WHERE id=$1
-    RETURNING id, name;
+    RETURNING id;
     `, [id]);
 
     return collection;
@@ -36,39 +38,42 @@ async function deleteCollection(id) {
   }
 }
 
+
+
+// !!! -- are we going to need this??
 async function updateCollection({columnsToUpdate, id}) {
   try {
 
-    const columns = [];
-    const values = [];
-    let i = 1;
+    // const columns = [];
+    // const values = [];
+    // let i = 1;
 
-    columnsToUpdate.forEach((columnToUpdate) => {
-      if(
-        columnToUpdate.column === 'name' ||
-        columnToUpdate.column === 'image' ||
-        columnToUpdate.column === 'numberOfCards' ||
-        columnToUpdate.column === 'normalCards' ||
-        columnToUpdate.column === 'secretCards' ||
-        columnToUpdate.column === 'description'
-      ){
-        columns.push(` "${columnToUpdate.column}"=$${i} `);
-        values.push(columnToUpdate.value);
-        i++;
-      }
-    });
+    // columnsToUpdate.forEach((columnToUpdate) => {
+    //   if(
+    //     columnToUpdate.column === 'name' ||
+    //     columnToUpdate.column === 'image' ||
+    //     columnToUpdate.column === 'numberOfCards' ||
+    //     columnToUpdate.column === 'normalCards' ||
+    //     columnToUpdate.column === 'secretCards' ||
+    //     columnToUpdate.column === 'description'
+    //   ){
+    //     columns.push(` "${columnToUpdate.column}"=$${i} `);
+    //     values.push(columnToUpdate.value);
+    //     i++;
+    //   }
+    // });
 
-    values.push(id);
+    // values.push(id);
 
-    if(columns.length > 0){
-      const {rows: [collection]} = await client.query(`
-      UPDATE collections
-      SET ${columns}
-      WHERE id=$${i}
-      RETURNING *;
-      `, values);
-      return collection;
-    }
+    // if(columns.length > 0){
+    //   const {rows: [collection]} = await client.query(`
+    //   UPDATE collections
+    //   SET ${columns}
+    //   WHERE id=$${i}
+    //   RETURNING *;
+    //   `, values);
+    //   return collection;
+    // }
 
     return 'There are no columns to update.';
   } catch (error) {
@@ -81,14 +86,16 @@ async function getCollectionById(id) {
 
     console.log('id: ', id);
     const {rows: [collection]} = await client.query(`
-    SELECT *
+    SELECT collections.id AS "collectionId", sets.*
     FROM collections
-    WHERE id=$1;
+    JOIN sets ON collections.set = sets.id
+    WHERE collections.id=$1;
     `, [id]);
 
     if(collection){
       // console.log("collection.id", collection.id);
-      collection.cards = await getAllCardsForCollection(collection.id);
+      collection.collectedCards = await getAllCardsForCollection(collection.id);
+      collection.cardList = await getCardsBySet(collection.id);
     }
 
     // console.log(collection);
@@ -99,32 +106,33 @@ async function getCollectionById(id) {
   }
 }
 
-async function getCollectionByName(name) {
-  try {
+// async function getCollectionByName(name) {
+//   try {
 
-    const {rows: [collection]} = await client.query(`
-    SELECT *
-    FROM collections
-    WHERE name=$1;
-    `, [name]);
+//     const {rows: [collection]} = await client.query(`
+//     SELECT *
+//     FROM collections
+//     WHERE name=$1;
+//     `, [name]);
 
     
-    if(collection){
-      collection.cards = await getAllCardsForCollection(collection.id);
-    }
+//     if(collection){
+//       collection.cards = await getAllCardsForCollection(collection.id);
+//     }
 
-    return collection;
-  } catch (error) {
-    throw error;
-  }
-}
+//     return collection;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 async function getAllUserCollections(userId) {
   try {
 
     const {rows: collections} = await client.query(`
-    SELECT *
+    SELECT collections.id AS "collectionId", set.*
     FROM collections
+    JOIN set ON collections.set = set.id
     WHERE "userId" = $1;
     `, [userId]);
 
@@ -192,7 +200,7 @@ module.exports = {
   deleteCollection,
   updateCollection,
   getCollectionById,
-  getCollectionByName,
+  // getCollectionByName,
   getAllCollections,
   canAccessCollection,
   getAllUserCollections

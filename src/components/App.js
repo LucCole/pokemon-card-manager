@@ -88,8 +88,8 @@ const App = () => {
 
       {/* Sets */}
       {/* <Route path='/sets' element={<UserForm action='register' setToken={setToken} setUserData={setUserData}/>}/> */}
-      <Route path='/sets' element={<Sets />}/>
-      <Route path='/sets/:id' element={<Set />}/>
+      <Route path='/sets' element={<Sets userData={userData} token={token}/>}/>
+      <Route path='/sets/:id' element={<Set userData={userData} token={token}/>}/>
 
 
       {/* Collections and Collection Templates */}

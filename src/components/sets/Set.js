@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Set = () => {
+const Set = ({userData, token}) => {
 
   const classes = useStyles();
 

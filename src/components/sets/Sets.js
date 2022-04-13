@@ -15,9 +15,18 @@ import { getAllSets } from '../../api';
 //   }
 // }))
 
-const Sets = (userData, token) => {
+const Sets = ({userData, token}) => {
 
-  console.log('Hey --- hey');
+
+
+  console.log('userData: ', userData);
+  console.log('token: ', token);
+
+
+
+
+
+  // console.log('Hey --- hey');
 
   // const classes = useStyles();
 
@@ -36,20 +45,31 @@ const Sets = (userData, token) => {
   }, []);
 
 
+
+
+
   const formSubmit = async (event) => {
     event.preventDefault();
 
-    const requestInfo = {
-      token
-    }
+    console.log('Starting collection');
 
-    let data = null;
-    
-    if(isCreate){
-      data = await createCollection(requestInfo);
-    }
+    // const requestInfo = {
+    //   token
+    // }
 
-    console.log(data);
+    // let data = null;
+
+    // requestInfo.body = {
+    //   name,
+    //   image,
+    //   rarity,
+    //   number,
+    //   set,
+    //   artist,
+    //   set: 1
+    // }
+
+    // data = await createCard(requestInfo);
   };
 
   return (
@@ -64,9 +84,7 @@ const Sets = (userData, token) => {
           {
             userData.id
             ?
-            <Button variant="contained" onClick={() => {
-              
-            }}>{true?'Start Collection':'Veiw Collection'}</Button>
+            <Button variant="contained" type="input">{true?'Start Collection':'Veiw Collection'}</Button>
             :
             null
           }

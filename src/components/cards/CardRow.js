@@ -21,7 +21,7 @@ const CardRow = ({cards}) => {
     <div className={classes.cardRow}>
       
       {cards?.map((card, index) => (
-        <CardSnippet name={card.name} series={card.series} setNumber={card.setNumber} cardsInSet={card.cardsInSet} image={card.image} key={'card-'+index}></CardSnippet>
+        <CardSnippet name={card.name} number={card.number} cardsInSet={card.cardsInSet} image={card.image} key={'card-'+index}></CardSnippet>
       ))}
 
     </div>

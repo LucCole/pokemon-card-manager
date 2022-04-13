@@ -1,11 +1,15 @@
 export { default as App } from './App';
-// export { default as Set } from './Set';
-// export { default as SetInfo } from './SetInfo';
+
 // export { default as TemplateIntoCollectionButton } from './collections/TemplateIntoCollectionButton';
 
 // // Users
 export { default as UserForm } from './users/UserForm';
 export { default as UserProfile } from './users/UserProfile';
+
+// Sets
+export { default as SetInfo } from './sets/SetInfo';
+export { default as Set } from './sets/Set';
+export { default as Sets } from './sets/Sets';
 
 // // Collections and Collection Templates
 export { default as CollectionHeader } from './collections/CollectionHeader';

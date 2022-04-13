@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CardSnippet = ({name, series, setNumber, cardsInSet, image}) => {
+const CardSnippet = ({name, number, setCards, image}) => {
 
   const classes = useStyles();
 
@@ -32,8 +32,7 @@ const CardSnippet = ({name, series, setNumber, cardsInSet, image}) => {
       <img src={image}></img>
       <h3>{name}</h3>
       <div className={classes.series}>
-        <h4>{series}</h4>
-        <span>({setNumber}/{cardsInSet})</span>
+        <span>({number}/{setCards})</span>
       </div>
     </div>
   );

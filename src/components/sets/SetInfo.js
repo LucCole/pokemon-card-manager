@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const SetInfo = ({setName, series, logo, numberOfCards, normalCards, secretCards}) => {
+const SetInfo = ({setName, logo, numberOfCards, normalCards, secretCards}) => {
 
   const classes = useStyles();
 
@@ -17,7 +17,6 @@ const SetInfo = ({setName, series, logo, numberOfCards, normalCards, secretCards
     <div>
       <img src={logo} className={classes.logo}></img>
       <h2>{setName}</h2>
-      <h3>series: {series}</h3>
       <span>Number Of Cards: {numberOfCards}</span>
       <br></br>
       <span>Normal Cards {normalCards}</span>

@@ -28,11 +28,12 @@ const CardForm = ({ isCreate, userData, token }) => {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [rarity, setRarity] = useState('Common');
-  const [numberInSet, setNumberInSet] = useState(1);
-  const [typeNormal, setTypeNormal] = useState('True');
-  const [typeHollo, setTypeHollo] = useState('False');
-  const [typeReverseHollo, setTypeReverseHollo] = useState('False');
-  const [typeFoil, setTypeFoil] = useState('False');
+  const [number, setNumber] = useState(1);
+  const [set, setSet] = useState(1);
+  // const [typeNormal, setTypeNormal] = useState('True');
+  // const [typeHollo, setTypeHollo] = useState('False');
+  // const [typeReverseHollo, setTypeReverseHollo] = useState('False');
+  // const [typeFoil, setTypeFoil] = useState('False');
   const [artist, setArtist] = useState('');
 
   useEffect(async () => {
@@ -45,11 +46,12 @@ const CardForm = ({ isCreate, userData, token }) => {
         setName(data.name);
         setImage(data.image);
         setRarity(data.rarity);
-        setNumberInSet(data.numberInSet);
-        setTypeNormal(data.typeNormal === true ? 'True' : 'False');
-        setTypeHollo(data.typeHollo === true ? 'True' : 'False');
-        setTypeReverseHollo(data.typeReverseHollo === true ? 'True' : 'False');
-        setTypeFoil(data.typeFoil === true ? 'True' : 'False');
+        setNumber(data.number);
+        setSet(data.set);
+        // setTypeNormal(data.typeNormal === true ? 'True' : 'False');
+        // setTypeHollo(data.typeHollo === true ? 'True' : 'False');
+        // setTypeReverseHollo(data.typeReverseHollo === true ? 'True' : 'False');
+        // setTypeFoil(data.typeFoil === true ? 'True' : 'False');
         setArtist(data.artist);
       }
     }
@@ -71,11 +73,12 @@ const CardForm = ({ isCreate, userData, token }) => {
         name,
         image,
         rarity,
-        numberInSet,
-        typeNormal,
-        typeHollo,
-        typeReverseHollo,
-        typeFoil,
+        number,
+        set,
+        // typeNormal,
+        // typeHollo,
+        // typeReverseHollo,
+        // typeFoil,
         artist,
         set: 1
       }
@@ -102,25 +105,25 @@ const CardForm = ({ isCreate, userData, token }) => {
             "value": rarity
           },
           {
-            "column": "numberInSet",
-            "value": numberInSet
+            "column": "number",
+            "value": number
           },
-          {
-            "column": "typeNormal",
-            "value": typeNormal
-          },
-          {
-            "column": "typeHollo",
-            "value": typeHollo
-          },
-          {
-            "column": "typeReverseHollo",
-            "value": typeReverseHollo
-          },
-          {
-            "column": "typeFoil",
-            "value": typeFoil
-          },
+          // {
+          //   "column": "typeNormal",
+          //   "value": typeNormal
+          // },
+          // {
+          //   "column": "typeHollo",
+          //   "value": typeHollo
+          // },
+          // {
+          //   "column": "typeReverseHollo",
+          //   "value": typeReverseHollo
+          // },
+          // {
+          //   "column": "typeFoil",
+          //   "value": typeFoil
+          // },
           {
             "column": "artist",
             "value": artist
@@ -203,17 +206,26 @@ const CardForm = ({ isCreate, userData, token }) => {
         {/* Number in set */}
         <TextField 
           type="number" 
-          label="Number in set" 
+          label="Number" 
           required
           minLength="3"
-          value={numberInSet}
-          onChange={(event) => setNumberInSet(event.target.value)}
+          value={number}
+          onChange={(event) => setNumber(event.target.value)}
         />
 
-        Card types
+        <TextField 
+          type="number" 
+          label="set" 
+          required
+          minLength="1"
+          value={set}
+          onChange={(event) => setSet(event.target.value)}
+        />
+
+        {/* Card types */}
 
         {/* Normal */}
-        <FormControl>
+        {/* <FormControl>
           <FormLabel id="normal-radio-label">Normal</FormLabel>
           <RadioGroup
             row
@@ -225,10 +237,10 @@ const CardForm = ({ isCreate, userData, token }) => {
             <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
             <FormControlLabel value='False'control={<Radio />} label="False" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
 
         {/* Hollo */}
-        <FormControl>
+        {/* <FormControl>
           <FormLabel id="hollo-radio-label">Hollo</FormLabel>
           <RadioGroup
             row
@@ -240,10 +252,10 @@ const CardForm = ({ isCreate, userData, token }) => {
             <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
             <FormControlLabel value='False' control={<Radio />} label="False" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
 
         {/* Reverse Hollo */}
-        <FormControl>
+        {/* <FormControl>
           <FormLabel id="reverse-hollo-radio-label">Reverse Hollo</FormLabel>
           <RadioGroup
             row
@@ -255,10 +267,10 @@ const CardForm = ({ isCreate, userData, token }) => {
             <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
             <FormControlLabel value='False' control={<Radio />} label="False" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
         
         {/* Foil */}
-        <FormControl>
+        {/* <FormControl>
           <FormLabel id="foil-radio-label">Foil</FormLabel>
           <RadioGroup
             row
@@ -270,7 +282,7 @@ const CardForm = ({ isCreate, userData, token }) => {
             <FormControlLabel value='True' control={<Radio color="primary"/>} label="True" />
             <FormControlLabel value='False' control={<Radio />} label="False" />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
 
         {/* Artist */}
         <TextField 

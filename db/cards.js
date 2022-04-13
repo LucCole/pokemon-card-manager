@@ -1,9 +1,10 @@
 
 const { client } = require('./client');
 
+// typeNormal, typeHollo, typeReverseHollo, typeFoil,
 // admin and super admin only
-async function createCard({ name, image, set, numberInSet, rarity, typeNormal, typeHollo, typeReverseHollo, typeFoil, artist }) {
-  console.log('numberInSet: ', numberInSet);
+async function createCard({ name, image, set, number, rarity, artist }) {
+  // console.log('number: ', number);
   try {
 
     //"typeNormal", "typeHollo", "typeReverseHollo", "typeFoil"
@@ -11,10 +12,10 @@ async function createCard({ name, image, set, numberInSet, rarity, typeNormal, t
     //typeNormal, typeHollo, typeReverseHollo, typeFoil
 
     const {rows: [card]} = await client.query(`
-    INSERT INTO cards(name, image, set, "numberInSet", rarity, artist) 
+    INSERT INTO cards(name, image, set, number, rarity, artist) 
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
-    `, [ name, image, set, numberInSet, rarity, artist ]);
+    `, [ name, image, set, number, rarity, artist ]);
 
     return card;
   } catch (error) {
@@ -51,7 +52,7 @@ async function updateCard({columnsToUpdate, id}) {
         columnToUpdate.column === 'name' ||
         columnToUpdate.column === 'image' ||
         columnToUpdate.column === 'set' ||
-        columnToUpdate.column === 'numberInSet' ||
+        // columnToUpdate.column === 'numberInSet' ||
         columnToUpdate.column === 'rarity' ||
         // columnToUpdate.column === 'typeNormal' ||
         // columnToUpdate.column === 'typeHollo' ||
@@ -88,9 +89,10 @@ async function getCardById(id) {
   try {
 
     const {rows: [card]} = await client.query(`
-    SELECT *
+    SELECT cards.*, sets.cards AS "setCards"
     FROM cards
-    WHERE id=$1;
+    JOIN sets ON cards.set = sets.id
+    WHERE cards.id=$1;
     `, [id]);
 
     return card;
@@ -118,9 +120,27 @@ async function getAllCards() {
   try {
 
     const {rows: cards} = await client.query(`
-    SELECT *
-    FROM cards;
+    SELECT cards.*, sets.name AS "setName", sets.cards AS "setCards"
+    FROM cards
+    JOIN sets ON cards.set = sets.id;
     `);
+
+    return cards;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+async function getCardsBySet(set) {
+  try {
+
+    const {rows: cards} = await client.query(`
+    SELECT *
+    FROM cards
+    WHERE cards.set = $1
+    `, [set]);
 
     return cards;
   } catch (error) {
@@ -134,5 +154,6 @@ module.exports = {
   updateCard,
   getCardById,
   getCardByName,
-  getAllCards
+  getAllCards,
+  getCardsBySet
 }

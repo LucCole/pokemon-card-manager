@@ -53,9 +53,10 @@ try {
   CREATE TABLE sets(
     id SERIAL PRIMARY KEY, 
     name VARCHAR(255) NOT NULL, 
-    series VARCHAR(255),
     logo VARCHAR(500),
-    "numberOfCards" INTEGER,
+    icon VARCHAR(500),
+    "releaseDate" VARCHAR(255),
+    cards INTEGER,
     "normalCards" INTEGER,
     "secretCards" INTEGER
   );
@@ -64,12 +65,10 @@ try {
 
   // Cards
 
-
   // "typeNormal" BOOLEAN,
   // "typeHollo" BOOLEAN,
   // "typeReverseHollo" BOOLEAN,
   // "typeFoil" BOOLEAN,
-
 
   await client.query(`
   CREATE TABLE cards(
@@ -77,45 +76,19 @@ try {
     name VARCHAR(100) NOT NULL,
     image VARCHAR(500),
     set INTEGER REFERENCES sets(id),
-    "numberInSet" INTEGER,
+    number INTEGER,
     rarity VARCHAR(100),
     artist VARCHAR(100)
   );
   `);
   console.log('Created cards table');
 
-  // Collection Templates
-  // await client.query(`
-  // CREATE TABLE "collectionTemplates"(
-  //   id SERIAL PRIMARY KEY, 
-  //   name VARCHAR(100) NOT NULL, 
-  //   image VARCHAR(500),
-  //   "numberOfCards" INTEGER,
-  //   "normalCards" INTEGER,
-  //   "secretCards" INTEGER,
-  //   description VARCHAR(1000),
-  //   "creatorId" INTEGER REFERENCES users(id) NOT NULL
-  // );
-  // `);
-  // console.log('Created collection templates table');
 
-  // Collection Templates
-  // await client.query(`
-  // CREATE TABLE "collectionTemplates_cards"(
-  //   id SERIAL PRIMARY KEY, 
-  //   "collectionTemplateId" INTEGER REFERENCES "collectionTemplates"(id) NOT NULL, 
-  //   "cardId" INTEGER REFERENCES cards(id) NOT NULL
-  // );
-  // `);
-  // console.log('Created collection templates table');
 
 
 
 
   
-
-
-
 
   // Collections
   await client.query(`
@@ -155,3 +128,36 @@ buildTables()
 .then(populateInitialData)
 .catch(console.error)
 .finally(() => client.end());
+
+
+
+
+
+ // Collection Templates
+  // await client.query(`
+  // CREATE TABLE "collectionTemplates"(
+  //   id SERIAL PRIMARY KEY, 
+  //   name VARCHAR(100) NOT NULL, 
+  //   image VARCHAR(500),
+  //   "numberOfCards" INTEGER,
+  //   "normalCards" INTEGER,
+  //   "secretCards" INTEGER,
+  //   description VARCHAR(1000),
+  //   "creatorId" INTEGER REFERENCES users(id) NOT NULL
+  // );
+  // `);
+  // console.log('Created collection templates table');
+
+  // Collection Templates
+  // await client.query(`
+  // CREATE TABLE "collectionTemplates_cards"(
+  //   id SERIAL PRIMARY KEY, 
+  //   "collectionTemplateId" INTEGER REFERENCES "collectionTemplates"(id) NOT NULL, 
+  //   "cardId" INTEGER REFERENCES cards(id) NOT NULL
+  // );
+  // `);
+  // console.log('Created collection templates table');
+
+
+
+

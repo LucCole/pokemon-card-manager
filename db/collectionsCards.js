@@ -1,16 +1,14 @@
 
 const { client } = require('./client');
 
-async function createCollectionCard({ collectionId, cardId, collected }) {
+async function createCollectionCard({ collectionId, cardId }) {
   try {
 
-    console.log(collectionId, cardId, collected)
-
     const {rows: [collectionCard]} = await client.query(`
-    INSERT INTO "collections_cards"("collectionId", "cardId", collected) 
-    VALUES ($1, $2, $3)
+    INSERT INTO "collections_cards"("collectionId", "cardId") 
+    VALUES ($1, $2)
     RETURNING *;
-    `, [ collectionId, cardId, collected ]);
+    `, [ collectionId, cardId ]);
     
     return collectionCard;
   } catch (error) {
@@ -53,15 +51,20 @@ async function getAllCardsForCollection(id) {
   try {
 
     const {rows: collectionCards} = await client.query(`
-    SELECT "collections_cards".collected, cards.*
+    SELECT collections_cards."cardId"
     FROM "collections_cards"
-    JOIN cards ON "collections_cards"."cardId" = cards.id
     WHERE "collectionId"=$1;
     `, [id]);
 
+    const cards = [];
+
+    for(let i = 0; i < collectionCards.length; i++){
+      cards.push(collectionCards[i].cardId);
+    }
+
     // console.log('collectionCards', collectionCards);
 
-    return collectionCards;
+    return cards;
   } catch (error) {
     throw error;
   }

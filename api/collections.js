@@ -122,35 +122,35 @@ collectionsRouter.get('/id/:id', async (req, res, next) => {
   }
 });
 
-// GET /api/collections/name/:name
-collectionsRouter.get('/name/:name', async (req, res, next) => {
-  try {
+// // GET /api/collections/name/:name
+// collectionsRouter.get('/name/:name', async (req, res, next) => {
+//   try {
 
-    const collectionName = req.params.name;
-    const collection = await getCollectionByName(collectionName);
+//     const collectionName = req.params.name;
+//     const collection = await getCollectionByName(collectionName);
 
-    if(!collection){
-      next({
-        name: 'NotFound',
-        message: `No collection found by Name ${collectionName}`
-      })
-    }else{
+//     if(!collection){
+//       next({
+//         name: 'NotFound',
+//         message: `No collection found by Name ${collectionName}`
+//       })
+//     }else{
 
-      const canAccess = await canAccessCollection(collection.id, req.user.id);
+//       const canAccess = await canAccessCollection(collection.id, req.user.id);
 
-      if(canAccess){
-        res.send(collection);
-      }else{
-        next({
-          name: 'CantAccess',
-          message: `You do not have access this collection`
-        })
-      }
-    }
-  } catch (error) {
-    next(error);
-  }
-});
+//       if(canAccess){
+//         res.send(collection);
+//       }else{
+//         next({
+//           name: 'CantAccess',
+//           message: `You do not have access this collection`
+//         })
+//       }
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // GET /api/collections/user
 collectionsRouter.get('/user', async (req, res, next) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Button, TextField } from '@material-ui/core';
 
-import { createCollectionTemplate, createCollection, getMyCollectionTemplate, getCollectionById, editCollectionTemplate, editCollection } from "../../api";
+import { createCollectionTemplate, createCollection, getMyCollectionTemplate, getCollectionById, editCollectionTemplate, editCollection } from "../../../api";
 
 const CollectionForm = ({ isTemplate, isCreate, setToken, setUserData, userData, token }) => {
 

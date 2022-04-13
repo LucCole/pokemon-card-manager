@@ -93,13 +93,8 @@ try {
   // Collections
   await client.query(`
   CREATE TABLE collections(
-    id SERIAL PRIMARY KEY, 
-    name VARCHAR(100) NOT NULL, 
-    image VARCHAR(500),
-    "numberOfCards" INTEGER,
-    "normalCards" INTEGER,
-    "secretCards" INTEGER,
-    description VARCHAR(1000),
+    id SERIAL PRIMARY KEY,
+    set INTEGER REFERENCES sets(id) NOT NULL,
     "userId" INTEGER REFERENCES users(id) NOT NULL
   );
   `);
@@ -110,8 +105,7 @@ try {
   CREATE TABLE "collections_cards"(
     id SERIAL PRIMARY KEY, 
     "collectionId" INTEGER REFERENCES collections(id) NOT NULL, 
-    "cardId" INTEGER REFERENCES cards(id) NOT NULL, 
-    collected BOOLEAN
+    "cardId" INTEGER REFERENCES cards(id) NOT NULL
   );
   `);
   console.log('Created collection templates table');

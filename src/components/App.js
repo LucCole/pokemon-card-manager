@@ -121,7 +121,7 @@ const App = () => {
 
       <Route path='/collections/me' element={<MyCollections userData={userData} token={token}/>}/>
       <Route path='/collections/id/:id' element={<Collection userData={userData} token={token}/>}/>
-      <Route path='/collections/create' element={
+      {/* <Route path='/collections/create' element={
         <CollectionForm 
           isTemplate={false} 
           isCreate={true} 
@@ -140,7 +140,7 @@ const App = () => {
           userData={userData} 
           setUserData={setUserData} 
         />
-      }/>
+      }/> */}
 
       {/* Cards */}
 

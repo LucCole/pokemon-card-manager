@@ -1207,21 +1207,11 @@ async function populateInitialData() {
     console.log('Creating collections');
     const collectionsToCreate = [
       { 
-        name: 'User 1\s grass colection', 
-        image: 'https://archives.bulbagarden.net/media/upload/7/73/004Charmander.png',
-        numberOfCards: 10,
-        normalCards: 8,
-        secretCards: 2,
-        description: 'My own personal grass type collection',
+       set: 2,
         userId: 1
       },
       { 
-        name: 'Legendarys', 
-        image: 'https://m.media-amazon.com/images/I/61XjZ8DvaFL._SX466_.jpg',
-        numberOfCards: 150,
-        normalCards: 150,
-        secretCards: 0,
-        description: 'All legendarys',
+        set: 1,
         userId: 2
       },
     ];
@@ -1235,18 +1225,15 @@ async function populateInitialData() {
     const collectionsCardsToCreate = [
       { 
         "collectionId": 1,
-        "cardId": 2,
-        "collected": false
+        "cardId": 78
       },
       { 
         "collectionId": 1,
-        "cardId": 3,
-        "collected": true
+        "cardId": 67
       },
       { 
         "collectionId": 2,
-        "cardId": 1,
-        "collected": false
+        "cardId": 89
       },
     ];
 
